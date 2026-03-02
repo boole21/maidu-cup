@@ -1,63 +1,54 @@
 {%- doc -%}
   Product Bundle Cart Section
-  Displays a bundle of 4 products with selection and batch add to cart functionality.
+  Displays a bundle of 4 products with batch add to cart functionality.
   
   Features:
   - Left side: Large featured image with bundle title and description overlay
-  - Right side: Grid of 4 bundled products with save badges and pricing
+  - Right side: Grid of 4 bundled products with pricing
   - Product connectors with plus signs
   - Batch add to cart button
   - Responsive layout for all devices
 {%- enddoc -%}
 
 {%- liquid
-  assign bundle_product = section.settings.bundle_product
-  assign bundled_products = section.settings.bundled_products
-  assign bundle_title = section.settings.bundle_title | default: bundle_product.title
+  assign bundle_image = section.settings.bundle_image
+  assign bundle_title = section.settings.bundle_title
   assign bundle_description = section.settings.bundle_description
-  assign bundle_discount = section.settings.bundle_discount | default: 33
-  
-  assign total_individual_price = 0
-  assign bundle_price = bundle_product.price | default: 0
-  
+  assign bundled_products = section.settings.bundled_products
+
+  assign total_price = 0
+
   if bundled_products != blank
     for product in bundled_products
-      assign total_individual_price = total_individual_price | plus: product.price
+      assign total_price = total_price | plus: product.price
     endfor
   endif
-  
-  if bundle_product != blank
-    assign total_individual_price = total_individual_price | plus: bundle_product.price
-  endif
-  
-  assign savings_amount = total_individual_price | minus: bundle_price
-  assign savings_percentage = bundle_discount
 -%}
 
 <div
   class="product-bundle-cart-section section color-{{ section.settings.color_scheme }}"
   data-section-id="{{ section.id }}"
   data-section-type="product-bundle-cart"
-  data-discount="{{ bundle_discount }}"
 >
   <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-  
+
   <div class="product-bundle-cart-container section-content-wrapper spacing-style size-style border-style">
-    
     <div class="product-bundle-cart-grid">
       {%- comment -%}Left Side - Main Bundle Image{%- endcomment -%}
       <div class="product-bundle-cart-main">
         <div class="product-bundle-cart-main-inner">
-          {%- if bundle_product != blank and bundle_product.featured_media -%}
+          {%- if bundle_image != blank -%}
             <div class="product-bundle-cart-image-wrapper">
               <img
-                srcset="{{ bundle_product.featured_media | image_url: width: 400 }} 400w,
-                        {{ bundle_product.featured_media | image_url: width: 600 }} 600w,
-                        {{ bundle_product.featured_media | image_url: width: 800 }} 800w,
-                        {{ bundle_product.featured_media | image_url: width: 1200 }} 1200w"
-                src="{{ bundle_product.featured_media | image_url: width: 800 }}"
+                srcset="
+                  {{ bundle_image | image_url: width: 400 }} 400w,
+                  {{ bundle_image | image_url: width: 600 }} 600w,
+                  {{ bundle_image | image_url: width: 800 }} 800w,
+                  {{ bundle_image | image_url: width: 1200 }} 1200w
+                "
+                src="{{ bundle_image | image_url: width: 800 }}"
                 sizes="(min-width: 990px) 50vw, 100vw"
-                alt="{{ bundle_product.featured_media.alt | escape }}"
+                alt="{{ bundle_image.alt | escape }}"
                 class="product-bundle-cart-image"
                 loading="eager"
                 width="800"
@@ -67,12 +58,14 @@
             </div>
           {%- else -%}
             <div class="product-bundle-cart-image-wrapper product-bundle-cart-image-wrapper--placeholder">
-              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
           {%- endif -%}
-          
+
           <div class="product-bundle-cart-content">
-            <h2 class="product-bundle-cart-title">{{ bundle_title }}</h2>
+            {%- if bundle_title != blank -%}
+              <h2 class="product-bundle-cart-title">{{ bundle_title }}</h2>
+            {%- endif -%}
             {%- if bundle_description != blank -%}
               <p class="product-bundle-cart-description">{{ bundle_description }}</p>
             {%- endif -%}
@@ -86,20 +79,20 @@
           <div class="product-bundle-products-list">
             {%- for product in bundled_products limit: 4 -%}
               {%- assign product_index = forloop.index -%}
-              
-              <div class="product-bundle-product-item" data-product-id="{{ product.id }}">
-                {%- comment -%}Save Badge{%- endcomment -%}
-                <div class="product-bundle-save-badge">
-                  Save {{ savings_percentage }}%
-                </div>
-                
+
+              <div
+                class="product-bundle-product-item"
+                data-product-id="{{ product.selected_or_first_available_variant.id }}"
+              >
                 {%- comment -%}Product Image{%- endcomment -%}
                 <div class="product-bundle-product-image-container">
                   {%- if product.featured_media -%}
                     <img
-                      srcset="{{ product.featured_media | image_url: width: 200 }} 200w,
-                              {{ product.featured_media | image_url: width: 300 }} 300w,
-                              {{ product.featured_media | image_url: width: 400 }} 400w"
+                      srcset="
+                        {{ product.featured_media | image_url: width: 200 }} 200w,
+                        {{ product.featured_media | image_url: width: 300 }} 300w,
+                        {{ product.featured_media | image_url: width: 400 }} 400w
+                      "
                       src="{{ product.featured_media | image_url: width: 300 }}"
                       sizes="(min-width: 990px) 25vw, 33vw"
                       alt="{{ product.featured_media.alt | escape }}"
@@ -132,8 +125,6 @@
                 <h3 class="product-bundle-product-name">{{ product.title }}</h3>
                 <div class="product-bundle-product-pricing">
                   <span class="product-bundle-product-current-price">{{ product.price | money }}</span>
-                  {%- assign original_price = product.price | times: 100 | divided_by: savings_percentage | times: 100 | divided_by: 100 -%}
-                  <span class="product-bundle-product-original-price">{{ original_price | money }}</span>
                 </div>
               </div>
             {%- endfor -%}
@@ -145,20 +136,13 @@
               type="button"
               class="product-bundle-add-to-cart-btn"
               data-bundle-add-to-cart
-              {% if bundle_product.available == false %}disabled{% endif %}
             >
-              <span class="product-bundle-btn-text">
-                {%- if bundle_product.available -%}
-                  {{ 'products.bundle.add_to_cart' | t }}
-                {%- else -%}
-                  {{ 'products.product.sold_out' | t }}
-                {%- endif -%}
-              </span>
+              <span class="product-bundle-btn-text">Add to cart</span>
             </button>
           </div>
         {%- else -%}
           <div class="product-bundle-empty-state">
-            <p>{{ 'products.bundle.no_products' | t }}</p>
+            <p>Select products in the section settings to display the bundle.</p>
           </div>
         {%- endif -%}
       </div>
@@ -172,10 +156,9 @@
     --bundle-border-radius: 16px;
     --bundle-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     --bundle-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --bundle-save-badge-bg: #4a6fa5;
     --bundle-btn-bg: #1a1a1a;
     --bundle-btn-hover: #333333;
-    
+
     position: relative;
   }
 
@@ -264,12 +247,7 @@
   .product-bundle-cart-image-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.6) 0%,
-      rgba(0, 0, 0, 0.3) 40%,
-      rgba(0, 0, 0, 0.1) 100%
-    );
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.1) 100%);
   }
 
   .product-bundle-cart-content {
@@ -348,31 +326,6 @@
   @media screen and (min-width: 750px) {
     .product-bundle-product-item {
       gap: 12px;
-    }
-  }
-
-  /* Save Badge */
-  .product-bundle-save-badge {
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--bundle-save-badge-bg);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-    z-index: 3;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  @media screen and (min-width: 750px) {
-    .product-bundle-save-badge {
-      padding: 8px 16px;
-      font-size: 12px;
-      top: -12px;
     }
   }
 
@@ -500,25 +453,12 @@
   .product-bundle-product-current-price {
     font-size: 13px;
     font-weight: 600;
-    color: #c41e3a;
+    color: rgb(var(--color-foreground));
   }
 
   @media screen and (min-width: 750px) {
     .product-bundle-product-current-price {
       font-size: 14px;
-    }
-  }
-
-  .product-bundle-product-original-price {
-    font-size: 11px;
-    color: rgb(var(--color-foreground));
-    opacity: 0.5;
-    text-decoration: line-through;
-  }
-
-  @media screen and (min-width: 750px) {
-    .product-bundle-product-original-price {
-      font-size: 12px;
     }
   }
 
@@ -588,10 +528,18 @@
     animation: product-bundle-fade-in 0.5s ease forwards;
   }
 
-  .product-bundle-product-item:nth-child(1) { animation-delay: 0.1s; }
-  .product-bundle-product-item:nth-child(2) { animation-delay: 0.2s; }
-  .product-bundle-product-item:nth-child(3) { animation-delay: 0.3s; }
-  .product-bundle-product-item:nth-child(4) { animation-delay: 0.4s; }
+  .product-bundle-product-item:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .product-bundle-product-item:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .product-bundle-product-item:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .product-bundle-product-item:nth-child(4) {
+    animation-delay: 0.4s;
+  }
 {% endstylesheet %}
 
 {% javascript %}
@@ -600,7 +548,7 @@
       super();
       this.sectionId = this.dataset.sectionId;
       this.addToCartBtn = this.querySelector('[data-bundle-add-to-cart]');
-      
+
       this.init();
     }
 
@@ -613,7 +561,7 @@
     async handleAddToCart(event) {
       event.preventDefault();
       const button = event.currentTarget;
-      
+
       if (button.disabled) return;
 
       const originalText = button.querySelector('.product-bundle-btn-text').textContent;
@@ -621,40 +569,50 @@
       button.disabled = true;
       button.querySelector('.product-bundle-btn-text').textContent = 'Adding...';
 
-      // Get all product IDs in the bundle
+      // Get all product variant IDs in the bundle
       const productItems = this.querySelectorAll('.product-bundle-product-item');
       const items = [];
-      
-      productItems.forEach(item => {
-        const productId = item.dataset.productId;
-        if (productId) {
+
+      productItems.forEach((item) => {
+        const variantId = item.dataset.productId;
+        if (variantId) {
           items.push({
-            id: productId,
-            quantity: 1
+            id: variantId,
+            quantity: 1,
           });
         }
       });
+
+      if (items.length === 0) {
+        button.querySelector('.product-bundle-btn-text').textContent = 'No products';
+        setTimeout(() => {
+          button.querySelector('.product-bundle-btn-text').textContent = originalText;
+          button.disabled = false;
+          button.classList.remove('loading');
+        }, 2000);
+        return;
+      }
 
       try {
         const response = await fetch('/cart/add.js', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ items })
+          body: JSON.stringify({ items }),
         });
 
         if (response.ok) {
           // Trigger cart update
           document.dispatchEvent(new CustomEvent('cart:updated'));
-          
+
           // Show success state
           button.querySelector('.product-bundle-btn-text').textContent = 'Added!';
-          
+
           setTimeout(() => {
             button.querySelector('.product-bundle-btn-text').textContent = originalText;
           }, 2000);
-          
+
           // Show notification
           this.showNotification('Bundle added to cart!', 'success');
         } else {
@@ -664,7 +622,7 @@
         console.error('Bundle add to cart error:', error);
         button.querySelector('.product-bundle-btn-text').textContent = 'Error';
         this.showNotification('Failed to add bundle. Please try again.', 'error');
-        
+
         setTimeout(() => {
           button.querySelector('.product-bundle-btn-text').textContent = originalText;
         }, 2000);
@@ -691,9 +649,9 @@
         animation: slide-in 0.3s ease;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       `;
-      
+
       document.body.appendChild(notification);
-      
+
       setTimeout(() => {
         notification.style.animation = 'slide-out 0.3s ease forwards';
         setTimeout(() => notification.remove(), 300);
@@ -717,16 +675,16 @@
       "content": "Bundle Content"
     },
     {
-      "type": "product",
-      "id": "bundle_product",
-      "label": "Bundle product",
-      "info": "Select the main product that represents this bundle"
+      "type": "image_picker",
+      "id": "bundle_image",
+      "label": "Bundle image",
+      "info": "Upload an image to display on the left side"
     },
     {
       "type": "text",
       "id": "bundle_title",
       "label": "Bundle title",
-      "info": "Custom title for the bundle (defaults to product title if empty)",
+      "info": "Title displayed over the bundle image",
       "default": "Vivid Bundle"
     },
     {
@@ -746,17 +704,6 @@
       "label": "Bundled products",
       "limit": 4,
       "info": "Select up to 4 products to include in the bundle"
-    },
-    {
-      "type": "range",
-      "id": "bundle_discount",
-      "label": "Bundle discount",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "unit": "%",
-      "default": 33,
-      "info": "Discount percentage shown on save badges"
     },
     {
       "type": "header",
