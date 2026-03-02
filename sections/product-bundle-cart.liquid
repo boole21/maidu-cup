@@ -14,23 +14,55 @@
   assign bundle_image = section.settings.bundle_image
   assign bundle_title = section.settings.bundle_title
   assign bundle_description = section.settings.bundle_description
-  assign variant_1 = section.settings.variant_1
-  assign variant_2 = section.settings.variant_2
-  assign variant_3 = section.settings.variant_3
-  assign variant_4 = section.settings.variant_4
+  assign product_1 = section.settings.product_1
+  assign product_2 = section.settings.product_2
+  assign product_3 = section.settings.product_3
+  assign product_4 = section.settings.product_4
+
+  assign variant_1_option = section.settings.variant_1_option | default: 'first'
+  assign variant_2_option = section.settings.variant_2_option | default: 'first'
+  assign variant_3_option = section.settings.variant_3_option | default: 'first'
+  assign variant_4_option = section.settings.variant_4_option | default: 'first'
 
   assign total_price = 0
 
-  if variant_1 != blank
+  if product_1 != blank
+    if variant_1_option == 'first'
+      assign variant_1 = product_1.selected_or_first_available_variant
+    else
+      assign variant_index = variant_1_option | minus: 1
+      assign variant_1 = product_1.variants[variant_index] | default: product_1.selected_or_first_available_variant
+    endif
     assign total_price = total_price | plus: variant_1.price
   endif
-  if variant_2 != blank
+
+  if product_2 != blank
+    if variant_2_option == 'first'
+      assign variant_2 = product_2.selected_or_first_available_variant
+    else
+      assign variant_index = variant_2_option | minus: 1
+      assign variant_2 = product_2.variants[variant_index] | default: product_2.selected_or_first_available_variant
+    endif
     assign total_price = total_price | plus: variant_2.price
   endif
-  if variant_3 != blank
+
+  if product_3 != blank
+    if variant_3_option == 'first'
+      assign variant_3 = product_3.selected_or_first_available_variant
+    else
+      assign variant_index = variant_3_option | minus: 1
+      assign variant_3 = product_3.variants[variant_index] | default: product_3.selected_or_first_available_variant
+    endif
     assign total_price = total_price | plus: variant_3.price
   endif
-  if variant_4 != blank
+
+  if product_4 != blank
+    if variant_4_option == 'first'
+      assign variant_4 = product_4.selected_or_first_available_variant
+    else
+      assign variant_index = variant_4_option | minus: 1
+      assign variant_4 = product_4.variants[variant_index] | default: product_4.selected_or_first_available_variant
+    endif
     assign total_price = total_price | plus: variant_4.price
   endif
 -%}
@@ -85,10 +117,10 @@
 
       {%- comment -%}Right Side - Bundled Products{%- endcomment -%}
       <div class="product-bundle-cart-products">
-        {%- if variant_1 != blank or variant_2 != blank or variant_3 != blank or variant_4 != blank -%}
+        {%- if product_1 != blank or product_2 != blank or product_3 != blank or product_4 != blank -%}
           <div class="product-bundle-products-list">
             {%- comment -%}Variant 1{%- endcomment -%}
-            {%- if variant_1 != blank -%}
+            {%- if product_1 != blank -%}
               <div
                 class="product-bundle-product-item"
                 data-product-id="{{ variant_1.id }}"
@@ -130,7 +162,7 @@
                     </div>
                   {%- endif -%}
                 </div>
-                {%- if variant_2 != blank or variant_3 != blank or variant_4 != blank -%}
+                {%- if product_2 != blank or product_3 != blank or product_4 != blank -%}
                   <div class="product-bundle-connector">
                     <span class="product-bundle-connector-icon">+</span>
                   </div>
@@ -139,7 +171,7 @@
             {%- endif -%}
 
             {%- comment -%}Variant 2{%- endcomment -%}
-            {%- if variant_2 != blank -%}
+            {%- if product_2 != blank -%}
               <div
                 class="product-bundle-product-item"
                 data-product-id="{{ variant_2.id }}"
@@ -181,7 +213,7 @@
                     </div>
                   {%- endif -%}
                 </div>
-                {%- if variant_3 != blank or variant_4 != blank -%}
+                {%- if product_3 != blank or product_4 != blank -%}
                   <div class="product-bundle-connector">
                     <span class="product-bundle-connector-icon">+</span>
                   </div>
@@ -190,7 +222,7 @@
             {%- endif -%}
 
             {%- comment -%}Variant 3{%- endcomment -%}
-            {%- if variant_3 != blank -%}
+            {%- if product_3 != blank -%}
               <div
                 class="product-bundle-product-item"
                 data-product-id="{{ variant_3.id }}"
@@ -232,7 +264,7 @@
                     </div>
                   {%- endif -%}
                 </div>
-                {%- if variant_4 != blank -%}
+                {%- if product_4 != blank -%}
                   <div class="product-bundle-connector">
                     <span class="product-bundle-connector-icon">+</span>
                   </div>
@@ -241,7 +273,7 @@
             {%- endif -%}
 
             {%- comment -%}Variant 4{%- endcomment -%}
-            {%- if variant_4 != blank -%}
+            {%- if product_4 != blank -%}
               <div
                 class="product-bundle-product-item"
                 data-product-id="{{ variant_4.id }}"
@@ -289,33 +321,33 @@
 
           {%- comment -%}Product Info Row{%- endcomment -%}
           <div class="product-bundle-products-info">
-            {%- if variant_1 != blank -%}
+            {%- if product_1 != blank -%}
               <div class="product-bundle-product-info-item">
-                <h3 class="product-bundle-product-name">{{ variant_1.product.title }}</h3>
+                <h3 class="product-bundle-product-name">{{ product_1.title }}</h3>
                 <div class="product-bundle-product-pricing">
                   <span class="product-bundle-product-current-price">{{ variant_1.price | money }}</span>
                 </div>
               </div>
             {%- endif -%}
-            {%- if variant_2 != blank -%}
+            {%- if product_2 != blank -%}
               <div class="product-bundle-product-info-item">
-                <h3 class="product-bundle-product-name">{{ variant_2.product.title }}</h3>
+                <h3 class="product-bundle-product-name">{{ product_2.title }}</h3>
                 <div class="product-bundle-product-pricing">
                   <span class="product-bundle-product-current-price">{{ variant_2.price | money }}</span>
                 </div>
               </div>
             {%- endif -%}
-            {%- if variant_3 != blank -%}
+            {%- if product_3 != blank -%}
               <div class="product-bundle-product-info-item">
-                <h3 class="product-bundle-product-name">{{ variant_3.product.title }}</h3>
+                <h3 class="product-bundle-product-name">{{ product_3.title }}</h3>
                 <div class="product-bundle-product-pricing">
                   <span class="product-bundle-product-current-price">{{ variant_3.price | money }}</span>
                 </div>
               </div>
             {%- endif -%}
-            {%- if variant_4 != blank -%}
+            {%- if product_4 != blank -%}
               <div class="product-bundle-product-info-item">
-                <h3 class="product-bundle-product-name">{{ variant_4.product.title }}</h3>
+                <h3 class="product-bundle-product-name">{{ product_4.title }}</h3>
                 <div class="product-bundle-product-pricing">
                   <span class="product-bundle-product-current-price">{{ variant_4.price | money }}</span>
                 </div>
@@ -335,7 +367,7 @@
           </div>
         {%- else -%}
           <div class="product-bundle-empty-state">
-            <p>Select product variants in the section settings to display the bundle.</p>
+            <p>Select products in the section settings to display the bundle.</p>
           </div>
         {%- endif -%}
       </div>
@@ -892,24 +924,76 @@
       "content": "Bundled Products"
     },
     {
-      "type": "product_variant",
-      "id": "variant_1",
+      "type": "product",
+      "id": "product_1",
       "label": "Product 1"
     },
     {
-      "type": "product_variant",
-      "id": "variant_2",
+      "type": "select",
+      "id": "variant_1_option",
+      "label": "Variant 1 option",
+      "options": [
+        { "value": "first", "label": "First available variant" },
+        { "value": "1", "label": "Option 1" },
+        { "value": "2", "label": "Option 2" },
+        { "value": "3", "label": "Option 3" }
+      ],
+      "default": "first",
+      "info": "Select which variant to use for Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
       "label": "Product 2"
     },
     {
-      "type": "product_variant",
-      "id": "variant_3",
+      "type": "select",
+      "id": "variant_2_option",
+      "label": "Variant 2 option",
+      "options": [
+        { "value": "first", "label": "First available variant" },
+        { "value": "1", "label": "Option 1" },
+        { "value": "2", "label": "Option 2" },
+        { "value": "3", "label": "Option 3" }
+      ],
+      "default": "first",
+      "info": "Select which variant to use for Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
       "label": "Product 3"
     },
     {
-      "type": "product_variant",
-      "id": "variant_4",
+      "type": "select",
+      "id": "variant_3_option",
+      "label": "Variant 3 option",
+      "options": [
+        { "value": "first", "label": "First available variant" },
+        { "value": "1", "label": "Option 1" },
+        { "value": "2", "label": "Option 2" },
+        { "value": "3", "label": "Option 3" }
+      ],
+      "default": "first",
+      "info": "Select which variant to use for Product 3"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
       "label": "Product 4"
+    },
+    {
+      "type": "select",
+      "id": "variant_4_option",
+      "label": "Variant 4 option",
+      "options": [
+        { "value": "first", "label": "First available variant" },
+        { "value": "1", "label": "Option 1" },
+        { "value": "2", "label": "Option 2" },
+        { "value": "3", "label": "Option 3" }
+      ],
+      "default": "first",
+      "info": "Select which variant to use for Product 4"
     },
     {
       "type": "header",
