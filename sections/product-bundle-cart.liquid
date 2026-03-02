@@ -14,14 +14,24 @@
   assign bundle_image = section.settings.bundle_image
   assign bundle_title = section.settings.bundle_title
   assign bundle_description = section.settings.bundle_description
-  assign bundled_products = section.settings.bundled_products
+  assign product_1 = section.settings.product_1
+  assign product_2 = section.settings.product_2
+  assign product_3 = section.settings.product_3
+  assign product_4 = section.settings.product_4
 
   assign total_price = 0
 
-  if bundled_products != blank
-    for product in bundled_products
-      assign total_price = total_price | plus: product.price
-    endfor
+  if product_1 != blank
+    assign total_price = total_price | plus: product_1.price
+  endif
+  if product_2 != blank
+    assign total_price = total_price | plus: product_2.price
+  endif
+  if product_3 != blank
+    assign total_price = total_price | plus: product_3.price
+  endif
+  if product_4 != blank
+    assign total_price = total_price | plus: product_4.price
   endif
 -%}
 
@@ -75,27 +85,25 @@
 
       {%- comment -%}Right Side - Bundled Products{%- endcomment -%}
       <div class="product-bundle-cart-products">
-        {%- if bundled_products != blank and bundled_products.size > 0 -%}
+        {%- if product_1 != blank or product_2 != blank or product_3 != blank or product_4 != blank -%}
           <div class="product-bundle-products-list">
-            {%- for product in bundled_products limit: 4 -%}
-              {%- assign product_index = forloop.index -%}
-
+            {%- comment -%}Product 1{%- endcomment -%}
+            {%- if product_1 != blank -%}
               <div
                 class="product-bundle-product-item"
-                data-product-id="{{ product.selected_or_first_available_variant.id }}"
+                data-product-id="{{ product_1.selected_or_first_available_variant.id }}"
               >
-                {%- comment -%}Product Image{%- endcomment -%}
                 <div class="product-bundle-product-image-container">
-                  {%- if product.featured_media -%}
+                  {%- if product_1.featured_media -%}
                     <img
                       srcset="
-                        {{ product.featured_media | image_url: width: 200 }} 200w,
-                        {{ product.featured_media | image_url: width: 300 }} 300w,
-                        {{ product.featured_media | image_url: width: 400 }} 400w
+                        {{ product_1.featured_media | image_url: width: 200 }} 200w,
+                        {{ product_1.featured_media | image_url: width: 300 }} 300w,
+                        {{ product_1.featured_media | image_url: width: 400 }} 400w
                       "
-                      src="{{ product.featured_media | image_url: width: 300 }}"
+                      src="{{ product_1.featured_media | image_url: width: 300 }}"
                       sizes="(min-width: 990px) 25vw, 33vw"
-                      alt="{{ product.featured_media.alt | escape }}"
+                      alt="{{ product_1.featured_media.alt | escape }}"
                       class="product-bundle-product-image"
                       loading="lazy"
                       width="300"
@@ -103,31 +111,156 @@
                     >
                   {%- else -%}
                     <div class="product-bundle-product-image product-bundle-product-image--placeholder">
-                      {{ 'product-' | append: product_index | placeholder_svg_tag: 'placeholder-svg' }}
+                      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
                     </div>
                   {%- endif -%}
                 </div>
-
-                {%- comment -%}Connector (plus sign) - show after each product except the last one{%- endcomment -%}
-                {%- unless forloop.last -%}
+                {%- if product_2 != blank or product_3 != blank or product_4 != blank -%}
                   <div class="product-bundle-connector">
                     <span class="product-bundle-connector-icon">+</span>
                   </div>
-                {%- endunless -%}
+                {%- endif -%}
               </div>
-            {%- endfor -%}
+            {%- endif -%}
+
+            {%- comment -%}Product 2{%- endcomment -%}
+            {%- if product_2 != blank -%}
+              <div
+                class="product-bundle-product-item"
+                data-product-id="{{ product_2.selected_or_first_available_variant.id }}"
+              >
+                <div class="product-bundle-product-image-container">
+                  {%- if product_2.featured_media -%}
+                    <img
+                      srcset="
+                        {{ product_2.featured_media | image_url: width: 200 }} 200w,
+                        {{ product_2.featured_media | image_url: width: 300 }} 300w,
+                        {{ product_2.featured_media | image_url: width: 400 }} 400w
+                      "
+                      src="{{ product_2.featured_media | image_url: width: 300 }}"
+                      sizes="(min-width: 990px) 25vw, 33vw"
+                      alt="{{ product_2.featured_media.alt | escape }}"
+                      class="product-bundle-product-image"
+                      loading="lazy"
+                      width="300"
+                      height="300"
+                    >
+                  {%- else -%}
+                    <div class="product-bundle-product-image product-bundle-product-image--placeholder">
+                      {{ 'product-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                  {%- endif -%}
+                </div>
+                {%- if product_3 != blank or product_4 != blank -%}
+                  <div class="product-bundle-connector">
+                    <span class="product-bundle-connector-icon">+</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {%- comment -%}Product 3{%- endcomment -%}
+            {%- if product_3 != blank -%}
+              <div
+                class="product-bundle-product-item"
+                data-product-id="{{ product_3.selected_or_first_available_variant.id }}"
+              >
+                <div class="product-bundle-product-image-container">
+                  {%- if product_3.featured_media -%}
+                    <img
+                      srcset="
+                        {{ product_3.featured_media | image_url: width: 200 }} 200w,
+                        {{ product_3.featured_media | image_url: width: 300 }} 300w,
+                        {{ product_3.featured_media | image_url: width: 400 }} 400w
+                      "
+                      src="{{ product_3.featured_media | image_url: width: 300 }}"
+                      sizes="(min-width: 990px) 25vw, 33vw"
+                      alt="{{ product_3.featured_media.alt | escape }}"
+                      class="product-bundle-product-image"
+                      loading="lazy"
+                      width="300"
+                      height="300"
+                    >
+                  {%- else -%}
+                    <div class="product-bundle-product-image product-bundle-product-image--placeholder">
+                      {{ 'product-3' | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                  {%- endif -%}
+                </div>
+                {%- if product_4 != blank -%}
+                  <div class="product-bundle-connector">
+                    <span class="product-bundle-connector-icon">+</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {%- comment -%}Product 4{%- endcomment -%}
+            {%- if product_4 != blank -%}
+              <div
+                class="product-bundle-product-item"
+                data-product-id="{{ product_4.selected_or_first_available_variant.id }}"
+              >
+                <div class="product-bundle-product-image-container">
+                  {%- if product_4.featured_media -%}
+                    <img
+                      srcset="
+                        {{ product_4.featured_media | image_url: width: 200 }} 200w,
+                        {{ product_4.featured_media | image_url: width: 300 }} 300w,
+                        {{ product_4.featured_media | image_url: width: 400 }} 400w
+                      "
+                      src="{{ product_4.featured_media | image_url: width: 300 }}"
+                      sizes="(min-width: 990px) 25vw, 33vw"
+                      alt="{{ product_4.featured_media.alt | escape }}"
+                      class="product-bundle-product-image"
+                      loading="lazy"
+                      width="300"
+                      height="300"
+                    >
+                  {%- else -%}
+                    <div class="product-bundle-product-image product-bundle-product-image--placeholder">
+                      {{ 'product-4' | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
           </div>
 
           {%- comment -%}Product Info Row{%- endcomment -%}
           <div class="product-bundle-products-info">
-            {%- for product in bundled_products limit: 4 -%}
+            {%- if product_1 != blank -%}
               <div class="product-bundle-product-info-item">
-                <h3 class="product-bundle-product-name">{{ product.title }}</h3>
+                <h3 class="product-bundle-product-name">{{ product_1.title }}</h3>
                 <div class="product-bundle-product-pricing">
-                  <span class="product-bundle-product-current-price">{{ product.price | money }}</span>
+                  <span class="product-bundle-product-current-price">{{ product_1.price | money }}</span>
                 </div>
               </div>
-            {%- endfor -%}
+            {%- endif -%}
+            {%- if product_2 != blank -%}
+              <div class="product-bundle-product-info-item">
+                <h3 class="product-bundle-product-name">{{ product_2.title }}</h3>
+                <div class="product-bundle-product-pricing">
+                  <span class="product-bundle-product-current-price">{{ product_2.price | money }}</span>
+                </div>
+              </div>
+            {%- endif -%}
+            {%- if product_3 != blank -%}
+              <div class="product-bundle-product-info-item">
+                <h3 class="product-bundle-product-name">{{ product_3.title }}</h3>
+                <div class="product-bundle-product-pricing">
+                  <span class="product-bundle-product-current-price">{{ product_3.price | money }}</span>
+                </div>
+              </div>
+            {%- endif -%}
+            {%- if product_4 != blank -%}
+              <div class="product-bundle-product-info-item">
+                <h3 class="product-bundle-product-name">{{ product_4.title }}</h3>
+                <div class="product-bundle-product-pricing">
+                  <span class="product-bundle-product-current-price">{{ product_4.price | money }}</span>
+                </div>
+              </div>
+            {%- endif -%}
           </div>
 
           {%- comment -%}Add to Cart Button{%- endcomment -%}
@@ -699,11 +832,24 @@
       "content": "Bundled Products"
     },
     {
-      "type": "product_list",
-      "id": "bundled_products",
-      "label": "Bundled products",
-      "limit": 4,
-      "info": "Select up to 4 products to include in the bundle"
+      "type": "product",
+      "id": "product_1",
+      "label": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Product 3"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Product 4"
     },
     {
       "type": "header",
