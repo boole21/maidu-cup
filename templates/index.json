@@ -112,7 +112,8 @@
         "slide_UPfD7y": {
           "type": "_slide",
           "settings": {
-            "media_type_1": "image",
+            "media_type_1": "video",
+            "video_1": "shopify://files/videos/12b72c36308245399c3fe3896fad64e7.SD-480p-1.0Mbps-45995621.mp4",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -1378,6 +1379,7 @@
           "name": "t:names.video",
           "settings": {
             "source": "uploaded",
+            "video": "shopify://files/videos/47851ff520514319b41a66a5bef84cab.HD-1080p-2.5Mbps-45996179.mp4",
             "video_url": "",
             "video_autoplay": false,
             "video_loop": true,
