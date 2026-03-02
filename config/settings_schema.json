@@ -1835,7 +1835,7 @@
 				"type": "text",
 				"id": "newsletter_popover_title",
 				"label": "Popover Title",
-				"default": "Subscribe to Our Newsletter",
+				"default": "Subscribe to Our Newsletter LK",
 				"visible_if": "{{ settings.newsletter_popover_enabled }}"
 			},
 			{
