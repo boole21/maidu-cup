@@ -1,0 +1,803 @@
+{%- doc -%}
+  Product Bundle Cart Section
+  Displays a bundle of 4 products with selection and batch add to cart functionality.
+  
+  Features:
+  - Left side: Large featured image with bundle title and description overlay
+  - Right side: Grid of 4 bundled products with save badges and pricing
+  - Product connectors with plus signs
+  - Batch add to cart button
+  - Responsive layout for all devices
+{%- enddoc -%}
+
+{%- liquid
+  assign bundle_product = section.settings.bundle_product
+  assign bundled_products = section.settings.bundled_products
+  assign bundle_title = section.settings.bundle_title | default: bundle_product.title
+  assign bundle_description = section.settings.bundle_description
+  assign bundle_discount = section.settings.bundle_discount | default: 33
+  
+  assign total_individual_price = 0
+  assign bundle_price = bundle_product.price | default: 0
+  
+  if bundled_products != blank
+    for product in bundled_products
+      assign total_individual_price = total_individual_price | plus: product.price
+    endfor
+  endif
+  
+  if bundle_product != blank
+    assign total_individual_price = total_individual_price | plus: bundle_product.price
+  endif
+  
+  assign savings_amount = total_individual_price | minus: bundle_price
+  assign savings_percentage = bundle_discount
+-%}
+
+<div
+  class="product-bundle-cart-section section color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="product-bundle-cart"
+  data-discount="{{ bundle_discount }}"
+>
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  
+  <div class="product-bundle-cart-container section-content-wrapper spacing-style size-style border-style">
+    
+    <div class="product-bundle-cart-grid">
+      {%- comment -%}Left Side - Main Bundle Image{%- endcomment -%}
+      <div class="product-bundle-cart-main">
+        <div class="product-bundle-cart-main-inner">
+          {%- if bundle_product != blank and bundle_product.featured_media -%}
+            <div class="product-bundle-cart-image-wrapper">
+              <img
+                srcset="{{ bundle_product.featured_media | image_url: width: 400 }} 400w,
+                        {{ bundle_product.featured_media | image_url: width: 600 }} 600w,
+                        {{ bundle_product.featured_media | image_url: width: 800 }} 800w,
+                        {{ bundle_product.featured_media | image_url: width: 1200 }} 1200w"
+                src="{{ bundle_product.featured_media | image_url: width: 800 }}"
+                sizes="(min-width: 990px) 50vw, 100vw"
+                alt="{{ bundle_product.featured_media.alt | escape }}"
+                class="product-bundle-cart-image"
+                loading="eager"
+                width="800"
+                height="800"
+              >
+              <div class="product-bundle-cart-image-overlay"></div>
+            </div>
+          {%- else -%}
+            <div class="product-bundle-cart-image-wrapper product-bundle-cart-image-wrapper--placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endif -%}
+          
+          <div class="product-bundle-cart-content">
+            <h2 class="product-bundle-cart-title">{{ bundle_title }}</h2>
+            {%- if bundle_description != blank -%}
+              <p class="product-bundle-cart-description">{{ bundle_description }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%}Right Side - Bundled Products{%- endcomment -%}
+      <div class="product-bundle-cart-products">
+        {%- if bundled_products != blank and bundled_products.size > 0 -%}
+          <div class="product-bundle-products-list">
+            {%- for product in bundled_products limit: 4 -%}
+              {%- assign product_index = forloop.index -%}
+              
+              <div class="product-bundle-product-item" data-product-id="{{ product.id }}">
+                {%- comment -%}Save Badge{%- endcomment -%}
+                <div class="product-bundle-save-badge">
+                  Save {{ savings_percentage }}%
+                </div>
+                
+                {%- comment -%}Product Image{%- endcomment -%}
+                <div class="product-bundle-product-image-container">
+                  {%- if product.featured_media -%}
+                    <img
+                      srcset="{{ product.featured_media | image_url: width: 200 }} 200w,
+                              {{ product.featured_media | image_url: width: 300 }} 300w,
+                              {{ product.featured_media | image_url: width: 400 }} 400w"
+                      src="{{ product.featured_media | image_url: width: 300 }}"
+                      sizes="(min-width: 990px) 25vw, 33vw"
+                      alt="{{ product.featured_media.alt | escape }}"
+                      class="product-bundle-product-image"
+                      loading="lazy"
+                      width="300"
+                      height="300"
+                    >
+                  {%- else -%}
+                    <div class="product-bundle-product-image product-bundle-product-image--placeholder">
+                      {{ 'product-' | append: product_index | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {%- comment -%}Connector (plus sign) - show after each product except the last one{%- endcomment -%}
+                {%- unless forloop.last -%}
+                  <div class="product-bundle-connector">
+                    <span class="product-bundle-connector-icon">+</span>
+                  </div>
+                {%- endunless -%}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%}Product Info Row{%- endcomment -%}
+          <div class="product-bundle-products-info">
+            {%- for product in bundled_products limit: 4 -%}
+              <div class="product-bundle-product-info-item">
+                <h3 class="product-bundle-product-name">{{ product.title }}</h3>
+                <div class="product-bundle-product-pricing">
+                  <span class="product-bundle-product-current-price">{{ product.price | money }}</span>
+                  {%- assign original_price = product.price | times: 100 | divided_by: savings_percentage | times: 100 | divided_by: 100 -%}
+                  <span class="product-bundle-product-original-price">{{ original_price | money }}</span>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%}Add to Cart Button{%- endcomment -%}
+          <div class="product-bundle-actions">
+            <button
+              type="button"
+              class="product-bundle-add-to-cart-btn"
+              data-bundle-add-to-cart
+              {% if bundle_product.available == false %}disabled{% endif %}
+            >
+              <span class="product-bundle-btn-text">
+                {%- if bundle_product.available -%}
+                  {{ 'products.bundle.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+            </button>
+          </div>
+        {%- else -%}
+          <div class="product-bundle-empty-state">
+            <p>{{ 'products.bundle.no_products' | t }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-bundle-cart-section {
+    --bundle-gap: 24px;
+    --bundle-border-radius: 16px;
+    --bundle-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    --bundle-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bundle-save-badge-bg: #4a6fa5;
+    --bundle-btn-bg: #1a1a1a;
+    --bundle-btn-hover: #333333;
+    
+    position: relative;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-cart-section {
+      --bundle-gap: 32px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .product-bundle-cart-section {
+      --bundle-gap: 40px;
+    }
+  }
+
+  .product-bundle-cart-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Grid Layout */
+  .product-bundle-cart-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--bundle-gap);
+  }
+
+  @media screen and (min-width: 990px) {
+    .product-bundle-cart-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+  }
+
+  /* Left Side - Main Bundle */
+  .product-bundle-cart-main {
+    position: relative;
+  }
+
+  .product-bundle-cart-main-inner {
+    position: relative;
+    border-radius: var(--bundle-border-radius);
+    overflow: hidden;
+    height: 100%;
+    min-height: 400px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-cart-main-inner {
+      min-height: 500px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .product-bundle-cart-main-inner {
+      min-height: 600px;
+    }
+  }
+
+  .product-bundle-cart-image-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-bundle-cart-image-wrapper--placeholder {
+    background: rgba(var(--color-foreground), 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-bundle-cart-image-wrapper--placeholder svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  .product-bundle-cart-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-bundle-cart-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0.3) 40%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  .product-bundle-cart-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px;
+    color: white;
+    z-index: 2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-cart-content {
+      padding: 48px;
+    }
+  }
+
+  .product-bundle-cart-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    line-height: 1.2;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-cart-title {
+      font-size: 40px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .product-bundle-cart-title {
+      font-size: 48px;
+    }
+  }
+
+  .product-bundle-cart-description {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    opacity: 0.9;
+    max-width: 400px;
+  }
+
+  /* Right Side - Products */
+  .product-bundle-cart-products {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .product-bundle-products-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-products-list {
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+  }
+
+  .product-bundle-product-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-product-item {
+      gap: 12px;
+    }
+  }
+
+  /* Save Badge */
+  .product-bundle-save-badge {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bundle-save-badge-bg);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-save-badge {
+      padding: 8px 16px;
+      font-size: 12px;
+      top: -12px;
+    }
+  }
+
+  /* Product Image */
+  .product-bundle-product-image-container {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: var(--bundle-shadow);
+    flex-shrink: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-product-image-container {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .product-bundle-product-image-container {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .product-bundle-product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-bundle-product-image--placeholder {
+    background: rgba(var(--color-foreground), 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-bundle-product-image--placeholder svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  /* Connector */
+  .product-bundle-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-bundle-connector-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(var(--color-foreground), 0.1);
+    color: rgb(var(--color-foreground));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-connector-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+  }
+
+  /* Product Info */
+  .product-bundle-products-info {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-products-info {
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+  }
+
+  .product-bundle-product-info-item {
+    text-align: center;
+    min-width: 80px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-product-info-item {
+      min-width: 100px;
+    }
+  }
+
+  .product-bundle-product-name {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 6px;
+    color: rgb(var(--color-foreground));
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-product-name {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .product-bundle-product-pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .product-bundle-product-current-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: #c41e3a;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-product-current-price {
+      font-size: 14px;
+    }
+  }
+
+  .product-bundle-product-original-price {
+    font-size: 11px;
+    color: rgb(var(--color-foreground));
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-product-original-price {
+      font-size: 12px;
+    }
+  }
+
+  /* Add to Cart Button */
+  .product-bundle-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .product-bundle-add-to-cart-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px 32px;
+    background: var(--bundle-btn-bg);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--bundle-transition);
+    text-align: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle-add-to-cart-btn {
+      padding: 18px 40px;
+      font-size: 17px;
+    }
+  }
+
+  .product-bundle-add-to-cart-btn:hover:not(:disabled) {
+    background: var(--bundle-btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-bundle-add-to-cart-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .product-bundle-btn-text {
+    display: block;
+  }
+
+  /* Empty State */
+  .product-bundle-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    opacity: 0.6;
+  }
+
+  /* Animation */
+  @keyframes product-bundle-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .product-bundle-product-item {
+    animation: product-bundle-fade-in 0.5s ease forwards;
+  }
+
+  .product-bundle-product-item:nth-child(1) { animation-delay: 0.1s; }
+  .product-bundle-product-item:nth-child(2) { animation-delay: 0.2s; }
+  .product-bundle-product-item:nth-child(3) { animation-delay: 0.3s; }
+  .product-bundle-product-item:nth-child(4) { animation-delay: 0.4s; }
+{% endstylesheet %}
+
+{% javascript %}
+  class ProductBundleCartSection extends HTMLElement {
+    constructor() {
+      super();
+      this.sectionId = this.dataset.sectionId;
+      this.addToCartBtn = this.querySelector('[data-bundle-add-to-cart]');
+      
+      this.init();
+    }
+
+    init() {
+      if (this.addToCartBtn) {
+        this.addToCartBtn.addEventListener('click', this.handleAddToCart.bind(this));
+      }
+    }
+
+    async handleAddToCart(event) {
+      event.preventDefault();
+      const button = event.currentTarget;
+      
+      if (button.disabled) return;
+
+      const originalText = button.querySelector('.product-bundle-btn-text').textContent;
+      button.classList.add('loading');
+      button.disabled = true;
+      button.querySelector('.product-bundle-btn-text').textContent = 'Adding...';
+
+      // Get all product IDs in the bundle
+      const productItems = this.querySelectorAll('.product-bundle-product-item');
+      const items = [];
+      
+      productItems.forEach(item => {
+        const productId = item.dataset.productId;
+        if (productId) {
+          items.push({
+            id: productId,
+            quantity: 1
+          });
+        }
+      });
+
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ items })
+        });
+
+        if (response.ok) {
+          // Trigger cart update
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+          
+          // Show success state
+          button.querySelector('.product-bundle-btn-text').textContent = 'Added!';
+          
+          setTimeout(() => {
+            button.querySelector('.product-bundle-btn-text').textContent = originalText;
+          }, 2000);
+          
+          // Show notification
+          this.showNotification('Bundle added to cart!', 'success');
+        } else {
+          throw new Error('Failed to add bundle to cart');
+        }
+      } catch (error) {
+        console.error('Bundle add to cart error:', error);
+        button.querySelector('.product-bundle-btn-text').textContent = 'Error';
+        this.showNotification('Failed to add bundle. Please try again.', 'error');
+        
+        setTimeout(() => {
+          button.querySelector('.product-bundle-btn-text').textContent = originalText;
+        }, 2000);
+      } finally {
+        button.classList.remove('loading');
+        button.disabled = false;
+      }
+    }
+
+    showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `product-bundle-notification product-bundle-notification--${type}`;
+      notification.textContent = message;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 16px 24px;
+        border-radius: 8px;
+        background: ${type === 'success' ? '#2e7d32' : '#d32f2f'};
+        color: white;
+        font-weight: 500;
+        z-index: 9999;
+        animation: slide-in 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.animation = 'slide-out 0.3s ease forwards';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+  }
+
+  // Define the custom element
+  if (!customElements.get('product-bundle-cart-section')) {
+    customElements.define('product-bundle-cart-section', ProductBundleCartSection, { extends: 'div' });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Product Bundle Cart",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bundle Content"
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle product",
+      "info": "Select the main product that represents this bundle"
+    },
+    {
+      "type": "text",
+      "id": "bundle_title",
+      "label": "Bundle title",
+      "info": "Custom title for the bundle (defaults to product title if empty)",
+      "default": "Vivid Bundle"
+    },
+    {
+      "type": "text",
+      "id": "bundle_description",
+      "label": "Bundle description",
+      "info": "Short description shown below the bundle title",
+      "default": "Hold the shimmering galaxy in your hands"
+    },
+    {
+      "type": "header",
+      "content": "Bundled Products"
+    },
+    {
+      "type": "product_list",
+      "id": "bundled_products",
+      "label": "Bundled products",
+      "limit": 4,
+      "info": "Select up to 4 products to include in the bundle"
+    },
+    {
+      "type": "range",
+      "id": "bundle_discount",
+      "label": "Bundle discount",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 33,
+      "info": "Discount percentage shown on save badges"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Bundle Cart",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}
