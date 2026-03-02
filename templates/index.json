@@ -1378,6 +1378,7 @@
           "name": "t:names.video",
           "settings": {
             "source": "uploaded",
+            "video_url": "",
             "video_autoplay": false,
             "video_loop": true,
             "alt": "",
@@ -1825,8 +1826,8 @@
         "blog": "news",
         "layout_type": "grid",
         "carousel_on_mobile": false,
-        "post_limit": 3,
-        "columns": 3,
+        "post_limit": 4,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
         "columns_gap": 8,
