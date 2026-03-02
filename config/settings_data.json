@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/TENMOKUS-Logo-back.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
     "type_body_font": "inter_n4",
@@ -60,6 +61,8 @@
     "show_cart_note": true,
     "show_add_discount_code": true,
     "empty_cart_button_link": "shopify://collections/new-arrival",
+    "newsletter_popover_enabled": false,
+    "newsletter_popover_title": "Subscribe to Our Newsletter",
     "drawer_drop_shadow": true,
     "icon_stroke": "default",
     "input_border_width": 1,
@@ -78,6 +81,12 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "sections": {
+      "newsletter-popover": {
+        "type": "newsletter-popover",
+        "settings": {}
+      }
+    },
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
