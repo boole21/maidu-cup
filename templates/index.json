@@ -382,7 +382,7 @@
           "sake-sets",
           "tea-sets"
         ],
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
         "columns": 4,
         "mobile_columns": "2",
@@ -392,7 +392,7 @@
         "rows_gap": 8,
         "max_collections": 4,
         "icons_style": "arrow",
-        "icons_shape": "none",
+        "icons_shape": "circle",
         "section_width": "page-width",
         "gap": 12,
         "color_scheme": "",
