@@ -575,7 +575,7 @@
       },
       "name": "Featured collection",
       "settings": {
-        "collection": "new-arrival",
+        "collection": "bestsellers",
         "layout_type": "grid",
         "carousel_on_mobile": true,
         "max_products": 8,
