@@ -8,6 +8,76 @@
 		"theme_support_url": "https://support.shopify.com/"
 	},
 	{
+		"name": "t:names.social_media_links",
+		"settings": [
+			{
+				"type": "url",
+				"id": "social_facebook_url",
+				"label": "t:options.facebook"
+			},
+			{
+				"type": "url",
+				"id": "social_instagram_url",
+				"label": "t:options.instagram"
+			},
+			{
+				"type": "url",
+				"id": "social_youtube_url",
+				"label": "t:options.youtube"
+			},
+			{
+				"type": "url",
+				"id": "social_tiktok_url",
+				"label": "t:options.tiktok"
+			},
+			{
+				"type": "url",
+				"id": "social_twitter_url",
+				"label": "t:options.twitter"
+			},
+			{
+				"type": "url",
+				"id": "social_threads_url",
+				"label": "t:options.threads"
+			},
+			{
+				"type": "url",
+				"id": "social_linkedin_url",
+				"label": "t:options.linkedin"
+			},
+			{
+				"type": "url",
+				"id": "social_bluesky_url",
+				"label": "t:options.bluesky"
+			},
+			{
+				"type": "url",
+				"id": "social_snapchat_url",
+				"label": "t:options.snapchat"
+			},
+			{
+				"type": "url",
+				"id": "social_pinterest_url",
+				"label": "t:options.pinterest"
+			},
+			{
+				"type": "url",
+				"id": "social_tumblr_url",
+				"label": "t:options.tumblr"
+			},
+			{
+				"type": "url",
+				"id": "social_vimeo_url",
+				"label": "t:options.vimeo"
+			},
+			{
+				"type": "url",
+				"id": "social_custom_url",
+				"label": "t:settings.custom_link"
+			}
+		]
+	},
+	{
 		"name": "t:names.logo_and_favicon",
 		"settings": [
 			{

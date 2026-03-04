@@ -148,7 +148,7 @@
               grid.setAttribute('product-grid-view', storedLayout);
 
               const options = document.querySelectorAll(
-                'input[type="radio"][name="grid"], input[type="radio"][name="grid-mobile"]'
+                'input[type="radio"][name="grid"], input[type="radio"][name="grid-mobile"]',
               );
               for (const option of options) {
                 option.checked = option.value === storedLayout;

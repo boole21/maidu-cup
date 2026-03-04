@@ -1,0 +1,6 @@
+<svg class="w-full h-auto" viewBox="0 0 101 101" stroke="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(101, 0) scale(-1, 1)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M101 0H0V101H1C1 45.7715 45.7715 1 101 1V0Z"></path>
+    <path d="M1 101C1 45.7715 45.7715 1 101 1" fill="none"></path>
+  </g>
+</svg>

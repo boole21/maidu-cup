@@ -242,10 +242,17 @@
   @supports (animation-timeline: scroll(self)) {
     dialog[open] .quick-add-modal__content .product-details {
       mask-image: linear-gradient(to bottom, transparent 0%, #000 var(--quick-add-modal-mask-start), #000 100%);
-      animation: 0.3s var(--animation-timing-fade-in) 0.1s both fadeSlideIn, scrollStart 1s linear both,
-        scrollEnd 1s linear both, detect-scroll 1ms linear none;
+      animation:
+        0.3s var(--animation-timing-fade-in) 0.1s both fadeSlideIn,
+        scrollStart 1s linear both,
+        scrollEnd 1s linear both,
+        detect-scroll 1ms linear none;
       animation-timeline: auto, scroll(self), scroll(self), scroll(self);
-      animation-range: normal, 0px 48px, calc(100% - 48px) 100%, 0% 100%;
+      animation-range:
+        normal,
+        0px 48px,
+        calc(100% - 48px) 100%,
+        0% 100%;
     }
   }
 
@@ -402,19 +409,19 @@
   .quick-add-modal__content
     .group-block:not(
       :has(
-          .buy-buttons-block,
-          .buy-buttons-block *,
-          .view-product-title,
-          .view-product-title *,
-          variant-picker,
-          variant-picker *,
-          product-price,
-          product-price *,
-          product-inventory,
-          product-inventory *,
-          .view-more-details__wrapper,
-          .view-more-details__wrapper *
-        ),
+        .buy-buttons-block,
+        .buy-buttons-block *,
+        .view-product-title,
+        .view-product-title *,
+        variant-picker,
+        variant-picker *,
+        product-price,
+        product-price *,
+        product-inventory,
+        product-inventory *,
+        .view-more-details__wrapper,
+        .view-more-details__wrapper *
+      ),
       .buy-buttons-block
     ) {
     display: none;

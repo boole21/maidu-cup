@@ -1,5 +1,9 @@
-import { Component } from '@theme/component';
-import { onDocumentLoaded, changeMetaThemeColor, setHeaderMenuStyle } from '@theme/utilities';
+import { Component } from "@theme/component";
+import {
+  onDocumentLoaded,
+  changeMetaThemeColor,
+  setHeaderMenuStyle,
+} from "@theme/utilities";
 
 /**
  * @typedef {Object} HeaderComponentRefs
@@ -19,7 +23,7 @@ import { onDocumentLoaded, changeMetaThemeColor, setHeaderMenuStyle } from '@the
  */
 
 class HeaderComponent extends Component {
-  requiredRefs = ['headerDrawerContainer', 'headerMenu', 'headerRowTop'];
+  requiredRefs = ["headerDrawerContainer", "headerMenu", "headerRowTop"];
 
   /**
    * Width of window when header drawer was hidden
@@ -58,6 +62,18 @@ class HeaderComponent extends Component {
   #scrollRafId = null;
 
   /**
+   * Threshold scroll position to trigger animation (150px)
+   * @type {number}
+   */
+  #animationThreshold = 150;
+
+  /**
+   * RAF ID for animation scroll handler
+   * @type {number | null}
+   */
+  #animationRafId = null;
+
+  /**
    * Keeps the global `--header-height` custom property up to date,
    * which other theme components can then consume
    */
@@ -67,10 +83,16 @@ class HeaderComponent extends Component {
     // The initial height is calculated using the .offsetHeight property, which returns an integer.
     // We round to the nearest integer to avoid unnecessaary reflows.
     const roundedHeaderHeight = Math.round(entry.borderBoxSize[0].blockSize);
-    document.body.style.setProperty('--header-height', `${roundedHeaderHeight}px`);
+    document.body.style.setProperty(
+      "--header-height",
+      `${roundedHeaderHeight}px`,
+    );
 
     // Check if the menu drawer should be hidden in favor of the header menu
-    if (this.#menuDrawerHiddenWidth && window.innerWidth > this.#menuDrawerHiddenWidth) {
+    if (
+      this.#menuDrawerHiddenWidth &&
+      window.innerWidth > this.#menuDrawerHiddenWidth
+    ) {
       this.#updateMenuVisibility(false);
     }
   });
@@ -92,10 +114,12 @@ class HeaderComponent extends Component {
       const { isIntersecting } = entry;
 
       if (alwaysSticky) {
-        this.dataset.stickyState = isIntersecting ? 'inactive' : 'active';
-        if (this.dataset.themeColor) changeMetaThemeColor(this.dataset.themeColor);
+        this.dataset.stickyState = isIntersecting ? "inactive" : "active";
+        if (this.dataset.themeColor)
+          changeMetaThemeColor(this.dataset.themeColor);
       } else {
-        this.#offscreen = !isIntersecting || this.dataset.stickyState === 'active';
+        this.#offscreen =
+          !isIntersecting || this.dataset.stickyState === "active";
       }
     }, config);
 
@@ -133,8 +157,8 @@ class HeaderComponent extends Component {
   };
 
   #updateScrollState = () => {
-    const stickyMode = this.getAttribute('sticky');
-    if (!this.#offscreen && stickyMode !== 'always') return;
+    const stickyMode = this.getAttribute("sticky");
+    if (!this.#offscreen && stickyMode !== "always") return;
 
     const scrollTop = document.scrollingElement?.scrollTop ?? 0;
     const headerTop = this.getBoundingClientRect().top;
@@ -146,13 +170,13 @@ class HeaderComponent extends Component {
       this.#timeout = null;
     }
 
-    if (stickyMode === 'always') {
+    if (stickyMode === "always") {
       if (isAtTop) {
-        this.dataset.scrollDirection = 'none';
+        this.dataset.scrollDirection = "none";
       } else if (isScrollingUp) {
-        this.dataset.scrollDirection = 'up';
+        this.dataset.scrollDirection = "up";
       } else {
-        this.dataset.scrollDirection = 'down';
+        this.dataset.scrollDirection = "down";
       }
 
       this.#lastScrollTop = scrollTop;
@@ -163,36 +187,76 @@ class HeaderComponent extends Component {
       if (isAtTop) {
         // reset sticky state when header is scrolled up to natural position
         this.#offscreen = false;
-        this.dataset.stickyState = 'inactive';
-        this.dataset.scrollDirection = 'none';
+        this.dataset.stickyState = "inactive";
+        this.dataset.scrollDirection = "none";
       } else {
         // show sticky header when scrolling up
-        this.dataset.stickyState = 'active';
-        this.dataset.scrollDirection = 'up';
+        this.dataset.stickyState = "active";
+        this.dataset.scrollDirection = "up";
       }
-    } else if (this.dataset.stickyState === 'active') {
-      this.dataset.scrollDirection = 'none';
+    } else if (this.dataset.stickyState === "active") {
+      this.dataset.scrollDirection = "none";
 
-      this.dataset.stickyState = 'idle';
+      this.dataset.stickyState = "idle";
     } else {
-      this.dataset.scrollDirection = 'none';
-      this.dataset.stickyState = 'idle';
+      this.dataset.scrollDirection = "none";
+      this.dataset.stickyState = "idle";
     }
 
     this.#lastScrollTop = scrollTop;
   };
 
+  /**
+   * Observes scroll position to trigger animation after 100px
+   * Controls padding of header rows via direct style manipulation
+   */
+  #observeAnimation = () => {
+    const headerRows = this.querySelectorAll(".header__row");
+
+    const handleAnimationScroll = () => {
+      if (this.#animationRafId !== null) return;
+
+      this.#animationRafId = requestAnimationFrame(() => {
+        this.#animationRafId = null;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const isActive = scrollTop > this.#animationThreshold;
+
+        headerRows.forEach((row) => {
+          if (isActive) {
+            row.style.padding = "0 48px";
+            row.style.borderBottom = "1px solid #1717171d";
+          } else {
+            row.style.padding = "";
+            row.style.borderBottom = "";
+          }
+        });
+      });
+    };
+
+    // Initial check
+    handleAnimationScroll();
+
+    // Listen to scroll events
+    window.addEventListener("scroll", handleAnimationScroll, { passive: true });
+  };
+
   connectedCallback() {
     super.connectedCallback();
     this.#resizeObserver.observe(this);
-    this.addEventListener('overflowMinimum', this.#handleOverflowMinimum);
+    this.addEventListener("overflowMinimum", this.#handleOverflowMinimum);
 
-    const stickyMode = this.getAttribute('sticky');
+    // Set initial state for animation
+    this.dataset.stickyState = "inactive";
+
+    // Always observe scroll for animation (100px threshold)
+    this.#observeAnimation();
+
+    const stickyMode = this.getAttribute("sticky");
     if (stickyMode) {
-      this.#observeStickyPosition(stickyMode === 'always');
+      this.#observeStickyPosition(stickyMode === "always");
 
-      if (stickyMode === 'scroll-up' || stickyMode === 'always') {
-        document.addEventListener('scroll', this.#handleWindowScroll);
+      if (stickyMode === "scroll-up" || stickyMode === "always") {
+        document.addEventListener("scroll", this.#handleWindowScroll);
       }
     }
   }
@@ -201,23 +265,23 @@ class HeaderComponent extends Component {
     super.disconnectedCallback();
     this.#resizeObserver.disconnect();
     this.#intersectionObserver?.disconnect();
-    this.removeEventListener('overflowMinimum', this.#handleOverflowMinimum);
-    document.removeEventListener('scroll', this.#handleWindowScroll);
+    this.removeEventListener("overflowMinimum", this.#handleOverflowMinimum);
+    document.removeEventListener("scroll", this.#handleWindowScroll);
     if (this.#scrollRafId !== null) {
       cancelAnimationFrame(this.#scrollRafId);
       this.#scrollRafId = null;
     }
-    document.body.style.setProperty('--header-height', '0px');
+    document.body.style.setProperty("--header-height", "0px");
   }
 }
 
-if (!customElements.get('header-component')) {
-  customElements.define('header-component', HeaderComponent);
+if (!customElements.get("header-component")) {
+  customElements.define("header-component", HeaderComponent);
 }
 
 onDocumentLoaded(() => {
-  const header = document.querySelector('header-component');
-  const headerGroup = document.querySelector('#header-group');
+  const header = document.querySelector("header-component");
+  const headerGroup = document.querySelector("#header-group");
 
   // Note: Initial header heights are set via inline script in theme.liquid
   // This ResizeObserver handles dynamic updates after page load
@@ -228,7 +292,8 @@ onDocumentLoaded(() => {
       const headerGroupHeight = entries.reduce((totalHeight, entry) => {
         if (
           entry.target !== header ||
-          (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling)
+          (header.hasAttribute("transparent") &&
+            header.parentElement?.nextElementSibling)
         ) {
           return totalHeight + (entry.borderBoxSize[0]?.blockSize ?? 0);
         }
@@ -237,7 +302,10 @@ onDocumentLoaded(() => {
       // The initial height is calculated using the .offsetHeight property, which returns an integer.
       // We round to the nearest integer to avoid unnecessaary reflows.
       const roundedHeaderGroupHeight = Math.round(headerGroupHeight);
-      document.body.style.setProperty('--header-group-height', `${roundedHeaderGroupHeight}px`);
+      document.body.style.setProperty(
+        "--header-group-height",
+        `${roundedHeaderGroupHeight}px`,
+      );
     });
 
     if (header instanceof HTMLElement) {
@@ -256,7 +324,7 @@ onDocumentLoaded(() => {
     // Also observe the header group itself for child changes
     const mutationObserver = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
-        if (mutation.type === 'childList') {
+        if (mutation.type === "childList") {
           // Re-observe all children when the list changes
           const children = headerGroup.children;
           for (let i = 0; i < children.length; i++) {

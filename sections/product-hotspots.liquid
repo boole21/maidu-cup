@@ -1,5 +1,3 @@
-
-
 <script
   src="{{ 'product-hotspot.js' | asset_url }}"
   type="module"
@@ -107,7 +105,9 @@
     font: inherit;
     color: inherit;
     outline: none;
-    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+    transition:
+      border-color 0.2s ease-out,
+      box-shadow 0.2s ease-out;
     z-index: var(--layer-flat);
   }
 
@@ -137,7 +137,9 @@
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-    transition: width 0.1s ease-out, height 0.1s ease-out;
+    transition:
+      width 0.1s ease-out,
+      height 0.1s ease-out;
   }
 
   /* On mobile, ensure trigger is tappable */
@@ -159,7 +161,10 @@
     background: var(--hotspot-bullseye, #fff);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.1s ease-out, height 0.1s ease-out, background 0.1s ease-out;
+    transition:
+      width 0.1s ease-out,
+      height 0.1s ease-out,
+      background 0.1s ease-out;
   }
 
   /* Bullseye grows on hover or when dialog is open (desktop only) */
@@ -168,7 +173,10 @@
     .hotspot:has(.hotspot-dialog[open]) .hotspot-trigger::after {
       width: calc(var(--hotspot-size) * 0.55);
       height: calc(var(--hotspot-size) * 0.55);
-      transition: width 0.2s ease-out, height 0.2s ease-out, background 0.2s ease-out;
+      transition:
+        width 0.2s ease-out,
+        height 0.2s ease-out,
+        background 0.2s ease-out;
       transition-delay: 0.2s;
     }
   }
@@ -353,7 +361,9 @@
     width: 100%;
     height: 100%;
     pointer-events: all;
-    transition: opacity 0.22s ease-out, translate 0.22s 0.1s ease-out;
+    transition:
+      opacity 0.22s ease-out,
+      translate 0.22s 0.1s ease-out;
     scale: var(--scale-x, 1) var(--scale-y, 1);
     z-index: var(--layer-flat);
   }

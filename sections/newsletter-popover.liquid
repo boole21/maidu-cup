@@ -152,7 +152,8 @@
   /* Transition for overlay and container */
   .newsletter-popover__overlay,
   .newsletter-popover__container {
-    transition: opacity var(--popover-transition-duration) var(--popover-transition-timing),
+    transition:
+      opacity var(--popover-transition-duration) var(--popover-transition-timing),
       visibility var(--popover-transition-duration) var(--popover-transition-timing);
   }
 
@@ -221,7 +222,9 @@
     border-radius: var(--style-border-radius, 8px);
     color: var(--color-foreground);
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
 
   .newsletter-popover__close:hover {
@@ -273,7 +276,9 @@
     background-color: var(--color-input-background);
     border: 1px solid var(--color-border);
     border-radius: var(--style-border-radius, 8px);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .newsletter-popover__input::placeholder {
@@ -323,7 +328,10 @@
     border: 1px solid var(--color-primary-button-border);
     border-radius: var(--style-border-radius, 8px);
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.1s ease;
   }
 
   .newsletter-popover__submit:hover:not(:disabled) {
@@ -390,7 +398,10 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease,
+      transform 0.3s ease;
     pointer-events: auto;
   }
 
@@ -438,7 +449,9 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     color: var(--color-foreground);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
     font-size: 14px;
     font-weight: 500;
   }
