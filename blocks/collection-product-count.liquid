@@ -1,11 +1,9 @@
 {% if closest.collection != blank %}
   {% assign product_count = closest.collection.products_count %}
-  {% assign count_text = product_count | append: ' products' %}
-  {% assign count_html = '<p>' | append: count_text | append: '</p>' %}
+  {% assign count_html = '<span >' | append: product_count | append: '</span>' %}
   {% render 'text', fallback_text: count_html, block: block %}
 {% else %}
-  {% assign count_text = '0 products' %}
-  {% assign count_html = '<p>' | append: count_text | append: '</p>' %}
+  {% assign count_html = '<span >0</span>' %}
   {% render 'text', fallback_text: count_html, block: block %}
 {% endif %}
 

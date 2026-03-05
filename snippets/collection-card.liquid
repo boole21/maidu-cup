@@ -68,7 +68,16 @@
   <div class="collection-card__inner">
     {{ card_image }}
     <div class="collection-card__content layout-panel-flex--column">
-      {{ children }}
+      <div class="collection-card__content--left">
+        {{ children }}
+      </div>
+      <div class="collection-card__content--right">
+        <span class="collection-card__arrow">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
     </div>
   </div>
 </div>
@@ -108,6 +117,51 @@
   .collection-card__content {
     max-width: 100%;
     --flex-wrap: wrap;
+    background-color: #fafafa;
+    padding: 1.2rem 2rem 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .collection-card__content--left {
+    flex: 1;
+  }
+  .collection-card__content--left > .title {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: flex-start;
+    min-height: 4rem;
+  }
+
+  .collection-card__content--left > .sub-title {
+    min-height: 4rem;
+  }
+
+  .collection-card__content--right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .collection-card__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .collection-card__arrow svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .collection-card:hover .collection-card__arrow > svg {
+    transform: rotate(90deg);
   }
 
   /* Nested image block rules */
@@ -158,5 +212,39 @@
     &.collection-card .placeholder-svg {
       aspect-ratio: 99;
     }
+  }
+
+  /* Product count badge positioning - top right of title */
+  /* Make the title text-block relative so the count can be positioned relative to it */
+  .collection-card__content .text-block:has(> *:not(.product-count-badge)) {
+    position: relative;
+  }
+
+  /* Position the product count at top right of the title */
+  .collection-card__content .text-block:has(.product-count-badge) {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 2;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* When product count follows title, position relative to title */
+  .collection-card__content
+    .text-block:has(> p, > h1, > h2, > h3, > h4, > h5, > h6):has(+ .text-block:has(.product-count-badge)) {
+    position: relative;
+    display: inline-block;
+  }
+
+  .collection-card__content
+    .text-block:has(> p, > h1, > h2, > h3, > h4, > h5, > h6):has(+ .text-block:has(.product-count-badge))
+    + .text-block:has(.product-count-badge) {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 2;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 {% endstylesheet %}

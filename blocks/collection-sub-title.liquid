@@ -1,14 +1,16 @@
-{% if closest.collection == blank %}
-  {% assign sub_title = 'placeholders.collection_sub_title' | t %}
-  {% assign sub_title_html = '<p>' | append: sub_title | append: '</p>' %}
-  {% render 'text', fallback_text: sub_title_html, block: block %}
-{% elsif closest.collection != blank %}
-  {% assign sub_title = closest.collection.metafields.custom.sub_title %}
-  {% if sub_title != blank %}
+<div class="sub-title">
+  {% if closest.collection == blank %}
+    {% assign sub_title = 'placeholders.collection_sub_title' | t %}
     {% assign sub_title_html = '<p>' | append: sub_title | append: '</p>' %}
     {% render 'text', fallback_text: sub_title_html, block: block %}
+  {% elsif closest.collection != blank %}
+    {% assign sub_title = closest.collection.metafields.custom.sub_title %}
+    {% if sub_title != blank %}
+      {% assign sub_title_html = '<p>' | append: sub_title | append: '</p>' %}
+      {% render 'text', fallback_text: sub_title_html, block: block %}
+    {% endif %}
   {% endif %}
-{% endif %}
+</div>
 
 {% schema %}
 {
