@@ -232,154 +232,16 @@
         "padding-block-end": 0
       }
     },
-    "section_r6wVY7": {
-      "type": "section",
-      "blocks": {
-        "group_Bk8XEr": {
-          "type": "group",
-          "name": "t:names.group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_fPf6Dd": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<h2>A Millennium’s Craft<br/><em>A Gift of Soul</em></h2>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "button_JktJUD": {
-              "type": "button",
-              "name": "t:names.button",
-              "settings": {
-                "label": "Our Story",
-                "link": "shopify://pages/contact",
-                "open_in_new_tab": false,
-                "style_class": "button-secondary",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_fPf6Dd",
-            "button_JktJUD"
-          ]
-        },
-        "text_jTDLQM": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p><strong>Tenmoku </strong>Jianzhan tea cups, a fusion of Japanese and Chinese millennium-old craftsmanship, are globally renowned for their handmade artistry, natural iron-rich glaze, and unique kiln-transformed patterns like \"oil spot\" and \"hare’s fur.\" Each cup uses 100% food-safe mineral glaze, where high iron content creates rare textures that evolve with use. Exceptional heat retention keeps tea warmer longer, enhancing flavor complexity with every sip—ideal for tea enthusiasts’ wellness rituals and fine art collectors’ treasures. With scarce hand-glazed designs and cultural storytelling packaging,<strong>Tenmoku </strong>is the ultimate luxury gift for conveying Eastern heritage and artisan legacy.</p>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "left",
-            "type_preset": "custom",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "loose",
-            "letter_spacing": "loose",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "group_Bk8XEr",
-        "text_jTDLQM"
-      ],
-      "name": "t:names.rich_text_section",
+    "heading_with_text_GcEE9W": {
+      "type": "heading-with-text",
+      "name": "Heading with Text",
       "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 100,
-        "section_width": "page-width",
-        "section_height": "small",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "heading": "A Millennium's Craft A Gift of Soul",
+        "button_text": "Our Story",
+        "button_link": "/",
+        "text_content": "<p><strong>Tenmoku</strong> Jianzhan tea cups, a fusion of Japanese and Chinese millennium-old craftsmanship, are globally renowned for their handmade artistry, natural iron-rich glaze, and unique kiln-transformed patterns like \"oil spot\" and \"hare's fur.\" Each cup uses 100% food-safe mineral glaze, where high iron content creates rare textures that evolve with use. Exceptional heat retention keeps tea warmer longer, enhancing flavor complexity with every sip—ideal for tea enthusiasts' wellness rituals and fine art collectors' treasures. With scarce hand-glazed designs and cultural storytelling packaging, <strong>Tenmoku</strong> is the ultimate luxury gift for conveying Eastern heritage and artisan legacy.</p>",
+        "color_scheme": "default",
+        "section_padding": 60
       }
     },
     "collection_list_LQCAiy": {
@@ -480,9 +342,9 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "1.5rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -495,6 +357,42 @@
                 "padding-block-end": 4,
                 "padding-inline-start": 8,
                 "padding-inline-end": 8
+              },
+              "blocks": {}
+            },
+            "collection_product_count_F8WTNY": {
+              "type": "collection-product-count",
+              "name": "t:names.collection_product_count",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "collection_sub_title_xzebay": {
+              "type": "collection-sub-title",
+              "name": "t:names.collection_sub_title",
+              "settings": {
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "0.875rem",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -517,7 +415,9 @@
             }
           },
           "block_order": [
-            "collection_title_gTURja"
+            "collection_title_gTURja",
+            "collection_product_count_F8WTNY",
+            "collection_sub_title_xzebay"
           ]
         }
       },
@@ -2681,7 +2581,7 @@
   },
   "order": [
     "slideshow_j8ggEC",
-    "section_r6wVY7",
+    "heading_with_text_GcEE9W",
     "collection_list_LQCAiy",
     "product_list_fa6P9H",
     "product_bundle_cart_BVkWhQ",
