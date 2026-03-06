@@ -9,11 +9,11 @@
  */
 {
   "current": {
-    "social_facebook_url": "https://facebook.com",
-    "social_instagram_url": "https://instagram.com",
-    "social_youtube_url": "https://youtube.com",
-    "social_tiktok_url": "https://tiktok.com",
-    "social_twitter_url": "https://twitter.com",
+    "social_facebook_url": "https://facebook.com/demo",
+    "social_instagram_url": "https://instagram.com/demo",
+    "social_youtube_url": "https://youtube.com/@demo",
+    "social_tiktok_url": "https://tiktok.com/@demo",
+    "social_twitter_url": "https://twitter.com/demo",
     "logo": "shopify://shop_images/TENMOKUS-Logo-back.png",
     "logo_height": 27,
     "logo_height_mobile": 28,
@@ -56,7 +56,7 @@
     "badge_sale_color_scheme": "scheme-1",
     "badge_sold_out_color_scheme": "scheme-3",
     "badge_text_transform": "none",
-    "primary_button_border_width": 0,
+    "primary_button_border_width": 2,
     "button_border_radius_primary": 100,
     "type_font_button_primary": "body",
     "secondary_button_border_width": 2,

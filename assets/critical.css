@@ -2623,17 +2623,11 @@
     border-style: var(--tw-border-style);
     border-width: 2px;
   }
-  .border-amber-100 {
-    border-color: var(--color-amber-100);
-  }
   .border-current {
     border-color: currentcolor;
   }
   .border-gray-100 {
     border-color: var(--color-gray-100);
-  }
-  .border-gray-500 {
-    border-color: var(--color-gray-500);
   }
   .bg-current {
     background-color: currentcolor;
@@ -2702,12 +2696,6 @@
   }
   .text-wrap {
     text-wrap: wrap;
-  }
-  .wrap-break-word {
-    overflow-wrap: break-word;
-  }
-  .wrap-normal {
-    overflow-wrap: normal;
   }
   .whitespace-nowrap {
     white-space: nowrap;

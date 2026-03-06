@@ -490,7 +490,7 @@ p:empty {
 }
 
 /* Make the actual section background transparent, and instead apply it to a separate sibling element to enable stacking with hero shadow  */
-.shopify-section:not(.header-section) :is(.section, .cart-summary) {
+/* .shopify-section:not(.header-section) :is(.section, .cart-summary) {
   background: transparent;
 }
 
@@ -503,7 +503,7 @@ p:empty {
   position: absolute;
   inset: 0;
   z-index: var(--layer-section-background);
-}
+} */
 
 /* For page-width sections, all content goes in the center column */
 .section--page-width > * {
@@ -564,6 +564,25 @@ p:empty {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+/* Add vertical divider lines before 2nd and 3rd group-block */
+.section-content-wrapper > .group-block:nth-child(2)::before,
+.section-content-wrapper > .group-block:nth-child(3)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 100%;
+  background-color: var(--color-border, #ccc);
+}
+
+.section-content-wrapper > .group-block:nth-child(2),
+.section-content-wrapper > .group-block:nth-child(3) {
+  position: relative;
+  padding-left: 16px;
 }
 
 /* Utility */
@@ -5236,4 +5255,9 @@ product-recommendations:has([data-has-recommendations="false"]) {
   text-decoration: line-through;
   opacity: 0.6;
   font-size: 12px;
+}
+
+.home-hero-video,
+.home-hero-video video {
+  border-radius: 30px;
 }
