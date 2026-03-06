@@ -9,7 +9,7 @@
 
 <div class="section section--padding color-{{ color_scheme }}" style="--section-padding: {{ section_padding }}px;">
   <div class="page-width">
-    <div class="grid-grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-16 items-center">
+    <div class="tw-grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-16 items-center">
       <!-- Left side: Heading + Button -->
       <div class="flex flex-col gap-8">
         {% if heading != blank %}
@@ -54,8 +54,8 @@
     padding-block: var(--section-padding, var(--padding-section));
   }
 
-  /* Tailwind CSS grid utility using grid-grid class to avoid conflict with Horizon theme */
-  .grid-grid {
+  /* Tailwind CSS grid utility using tw-grid class to avoid conflict with Horizon theme */
+  .tw-grid {
     display: grid;
   }
 

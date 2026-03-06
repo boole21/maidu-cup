@@ -1,0 +1,55 @@
+{%- liquid
+  assign product_resource = closest.product
+
+  if product_resource == blank
+    assign product_title = 'Succulent'
+    assign current_price = 4199
+    assign compare_at_price = 5990
+  else
+    assign product_title = product_resource.title
+    assign selected_variant = product_resource.selected_or_first_available_variant
+    assign current_price = selected_variant.price
+    assign compare_at_price = selected_variant.compare_at_price
+  endif
+-%}
+{% stylesheet %}
+  .price__sale::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    width: 100%;
+    transform: rotate(-15deg);
+    border-block-end: 1px solid red;
+  }
+{% endstylesheet %}
+
+<div class="tw-flex justify-between items-start  bg-gray-50 px-8 py-4">
+  <span class="text-xl font-normal text-gray-900">{{ product_title }}</span>
+  <div class="tw-flex flex-col items-end gap-1">
+    <span class="text-base font-normal text-red-600 whitespace-nowrap">{{ current_price | money_with_currency }}</span>
+    {% if compare_at_price > current_price %}
+      <span class="price__sale text-xs font-normal text-gray-500 relative">
+        {{- compare_at_price | money_with_currency -}}
+      </span>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_title_and_price",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.resource_reference_product_title_and_price"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_title_and_price",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

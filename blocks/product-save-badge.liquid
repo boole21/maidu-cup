@@ -1,0 +1,162 @@
+{%- liquid
+  assign product_resource = closest.product
+  assign selected_variant = product_resource.selected_or_first_available_variant
+  assign compare_at_price = selected_variant.compare_at_price
+  assign price = selected_variant.price
+
+  if compare_at_price > price
+    assign discount_amount = compare_at_price | minus: price
+    assign discount_percentage = discount_amount | times: 100 | divided_by: compare_at_price
+  else
+    assign discount_percentage = 0
+  endif
+-%}
+
+{% assign block_settings = block.settings %}
+
+{% if discount_percentage > 0 %}
+  <div
+    class="product-save-badge"
+    data-block-id="{{ block.id }}"
+    style="
+      background-color: {{ block_settings.background_color }};
+      color: {{ block_settings.text_color }};
+      border-radius: {{ block_settings.corner_radius }}px;
+    "
+  >
+    <span class="product-save-badge__text">Save {{ discount_percentage }}%</span>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .product-save-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    width: fit-content;
+  }
+
+  .product-save-badge__text {
+    white-space: nowrap;
+    padding: 4px;
+    font-weight: 400;
+    font-size: small;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product_save_badge",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.resource_reference_product_save_badge"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "fit-content",
+          "label": "t:options.fit_content"
+        },
+        {
+          "value": "100%",
+          "label": "t:options.fill"
+        }
+      ],
+      "default": "fit-content"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "#3a3a3a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "t:settings.corner_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_save_badge",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

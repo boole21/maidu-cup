@@ -1,0 +1,64 @@
+{% if closest.product == blank %}
+  {% assign capacity = '100ml' %}
+  {% assign diameter = '5cm' %}
+  {% assign depth = '10cm' %}
+{% else %}
+  {% assign capacity = closest.product.metafields.custom.capacity %}
+  {% assign diameter = closest.product.metafields.custom.diameter %}
+  {% assign depth = closest.product.metafields.custom.depth %}
+{% endif %}
+
+<div class="product-fields">
+  <div class="wrap border border-gray-100 rounded-b-2xl">
+    <div class="tw-flex items-center justify-center gap-4 py-2">
+      <div class="tw-flex items-center gap-2">
+        <div class="w-6 h-6 shrink-0">
+          {% render 'icon-capacity' %}
+        </div>
+        <div class="tw-flex flex-col items-start gap-0.5">
+          <div class="text-sm font-medium leading-tight">{{ capacity }}</div>
+          <div class="text-xs opacity-60 leading-tight">Capacity</div>
+        </div>
+      </div>
+      <div class="w-px h-8 bg-current opacity-15"></div>
+      <div class="tw-flex items-center gap-2">
+        <div class="w-6 h-6 shrink-0">
+          {% render 'icon-diameter' %}
+        </div>
+        <div class="tw-flex flex-col items-start gap-0.5">
+          <div class="text-sm font-medium leading-tight">{{ diameter }}</div>
+          <div class="text-xs opacity-60 leading-tight">Diameter</div>
+        </div>
+      </div>
+      <div class="w-px h-8 bg-current opacity-15"></div>
+      <div class="tw-flex items-center gap-2">
+        <div class="w-6 h-6 shrink-0">
+          {% render 'icon-depth' %}
+        </div>
+        <div class="tw-flex flex-col items-start gap-0.5">
+          <div class="text-sm font-medium leading-tight">{{ depth }}</div>
+          <div class="text-xs opacity-60 leading-tight">Depth</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.product_fields",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.resource_reference_product_fields"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_fields",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}
