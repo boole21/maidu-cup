@@ -9,13 +9,18 @@
   @param {number} [settings.thickness] - The thickness of the divider line in pixels.
   @param {string} [settings.corner_radius] - The corner radius of the divider, e.g., 'rounded'.
   @param {number} [settings.width_percent] - The width of the divider as a percentage of its container.
+  @param {string} [settings.orientation] - The orientation of the divider ('horizontal' or 'vertical'). Defaults to 'horizontal'.
 
   @param {boolean} [full_width] - When `true`, the divider spans the full width of its container.
   @param {boolean} [attributes] - When `true`, render block.shopify_attributes on the divider container.
 {%- enddoc -%}
 
+{% liquid
+  assign orientation = settings.orientation | default: 'horizontal'
+%}
+
 <div
-  class="divider divider-{{ id }} spacing-style"
+  class="divider divider--{{ orientation }} divider-{{ id }} spacing-style"
   style="
     --divider-justify-content: {{ settings.alignment_horizontal | default: 'center' }};
     {% render 'spacing-style', settings: settings %}
@@ -45,10 +50,26 @@
   }
 
   .divider__line {
-    border-bottom: var(--divider-border-thickness) solid var(--color-border);
-    border-right: var(--divider-border-thickness) solid var(--color-border);
     border-radius: calc(var(--style-border-radius-sm) * var(--divider-border-rounded));
     flex-basis: var(--divider-flex-basis);
+  }
+
+  /* Horizontal orientation */
+  .divider--horizontal .divider__line {
+    border-bottom: var(--divider-border-thickness) solid var(--color-border);
     min-height: var(--divider-flex-basis);
+    width: 100%;
+  }
+
+  /* Vertical orientation */
+  .divider--vertical {
+    height: 100%;
+  }
+
+  .divider--vertical .divider__line {
+    border-right: var(--divider-border-thickness) solid var(--color-border);
+    height: 100%;
+    min-width: var(--divider-border-thickness);
+    flex-basis: auto;
   }
 {% endstylesheet %}

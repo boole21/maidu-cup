@@ -237,6 +237,7 @@
     "make_section_full_width": "使分区全宽显示",
     "minimum_height": "最小高度",
     "opacity": "不透明度",
+    "orientation": "方向",
     "overlay_opacity": "叠加不透明度",
     "padding": "内边距",
     "primary_color": "链接",

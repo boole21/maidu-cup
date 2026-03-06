@@ -6,6 +6,22 @@
   "tag": null,
   "settings": [
     {
+      "type": "select",
+      "id": "orientation",
+      "label": "t:settings.orientation",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "t:options.horizontal"
+        },
+        {
+          "value": "vertical",
+          "label": "t:options.vertical"
+        }
+      ],
+      "default": "horizontal"
+    },
+    {
       "type": "range",
       "id": "thickness",
       "label": "t:settings.thickness",
@@ -40,7 +56,8 @@
       "max": 100,
       "step": 1,
       "unit": "%",
-      "default": 100
+      "default": 100,
+      "visible_if": "{{ block.settings.orientation == 'horizontal' }}"
     },
     {
       "type": "header",
