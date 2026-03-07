@@ -1,6 +1,6 @@
 {% assign block_settings = block.settings %}
 <div
-  class="accordion accordion--{{ block.id }} accordion--{{ block_settings.icon }} border-style spacing-style{% if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}{% if block_settings.dividers %} accordion--dividers{% endif %}"
+  class="accordion accordion--{{ block.id }} accordion--{{ block_settings.icon }} border-style spacing-style{% if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}{% if block_settings.dividers %} accordion--dividers{% endif %}{% if block_settings.auto_collapse %} accordion--auto-collapse{% endif %}{% if block_settings.scroll_to_top %} accordion--scroll-to-top{% endif %}"
   style="
     --summary-font-family: var(--font-{{ block_settings.type_preset }}--family);
      --summary-font-style: var(--font-{{ block_settings.type_preset }}--style);
@@ -38,11 +38,13 @@
   }
 
   .accordion--dividers accordion-custom:first-child .details {
-    border-block-start: calc(var(--style-border-width) * var(--show-fallback-borders)) solid var(--color-border);
+    /* border-block-start: calc(var(--style-border-width) * var(--show-fallback-borders)) solid var(--color-border); */
+    border-block-start: 0;
   }
 
   .accordion--dividers accordion-custom:last-child .details {
-    border-block-end: calc(var(--style-border-width) * var(--show-fallback-borders)) solid var(--color-border);
+    /* border-block-end: calc(var(--style-border-width) * var(--show-fallback-borders)) solid var(--color-border); */
+    border-block-end: 0;
   }
 
   .accordion--dividers .details-content {
@@ -59,12 +61,90 @@
     font-family: var(--summary-font-family);
     font-style: var(--summary-font-style);
     font-weight: var(--summary-font-weight);
-    font-size: var(--summary-font-size);
+    /* font-size: var(--summary-font-size); */
+    font-size: 1.2rem;
+    padding: 30px 0;
     line-height: var(--summary-font-line-height);
     text-transform: var(--summary-font-case);
     min-height: var(--minimum-touch-target);
   }
+
+  /* Override the base.css restriction to allow animations for auto-collapse */
+  .accordion--auto-collapse accordion-custom details:not(:focus-within) .details-content,
+  .accordion--auto-collapse accordion-custom details:not(:focus-within)::details-content {
+    transition: content-visibility var(--animation-speed-slow) allow-discrete,
+      padding-block var(--animation-speed-slow) var(--animation-easing),
+      opacity var(--animation-speed-slow) var(--animation-easing),
+      block-size var(--animation-speed-slow) var(--animation-easing) !important;
+  }
 {% endstylesheet %}
+
+{% javascript %}
+  // Auto-collapse accordion functionality
+  // When one accordion opens, close others in the same group
+  function initAutoCollapse() {
+    var accordions = document.querySelectorAll('.accordion--auto-collapse');
+
+    accordions.forEach(function (accordion) {
+      var detailsElements = accordion.querySelectorAll('details');
+      var shouldScroll = accordion.classList.contains('accordion--scroll-to-top');
+
+      detailsElements.forEach(function (details) {
+        // Use toggle event which fires after the open state changes
+        details.addEventListener('toggle', function (e) {
+          // Only handle when opening (details.open === true)
+          if (details.open) {
+            // Close all other open details in this accordion
+            detailsElements.forEach(function (otherDetails) {
+              if (otherDetails !== details && otherDetails.open) {
+                // Find and click the summary to trigger the close with animation
+                var summary = otherDetails.querySelector('summary');
+                if (summary) {
+                  summary.click();
+                }
+              }
+            });
+
+            // Scroll to top with header offset if enabled
+            if (shouldScroll) {
+              setTimeout(function () {
+                // Get container: prefer accordion-custom, fallback to details
+                var container = details.closest('accordion-custom') || details;
+                var rect = container.getBoundingClientRect();
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Get header height
+                var header = document.querySelector('header, .header, [data-header], .shopify-section-header');
+                var headerHeight = header ? header.offsetHeight : 0;
+                var offset = headerHeight + 20; // header height + 20px spacing
+
+                var targetY = scrollTop + rect.top - offset;
+
+                // Ensure we don't scroll to negative value
+                targetY = Math.max(0, targetY);
+
+                window.scrollTo({
+                  top: targetY,
+                  behavior: 'smooth',
+                });
+              }, 100);
+            }
+          }
+        });
+      });
+    });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAutoCollapse);
+  } else {
+    initAutoCollapse();
+  }
+
+  // Re-initialize when new content is added (for theme editor)
+  document.addEventListener('shopify:section:load', initAutoCollapse);
+{% endjavascript %}
 
 {% schema %}
 {
@@ -97,6 +177,18 @@
       "type": "checkbox",
       "id": "dividers",
       "label": "t:settings.dividers",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_collapse",
+      "label": "Auto collapse (only one open at a time)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "scroll_to_top",
+      "label": "Scroll to top when opened",
       "default": true
     },
     {

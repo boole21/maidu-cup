@@ -318,6 +318,32 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "product_guarantee_kgaiyV": {
+              "type": "_product-guarantee",
+              "name": "t:names.product_guarantee",
+              "settings": {
+                "icon_1": "truck",
+                "text_1": "In stock! Ships within 1-2 business days.",
+                "icon_2": "shield",
+                "text_2": "30 Days Money Back Guaranteed.",
+                "icon_3": "zap",
+                "text_3": "UPS & Fedex Shipping with Tracking.",
+                "icon_4": "none",
+                "text_4": "",
+                "icon_5": "none",
+                "text_5": "",
+                "background_color": "#fbfbfb",
+                "border_radius": 10,
+                "padding": 16,
+                "item_background_color": "#ffffff",
+                "item_border_radius": 10,
+                "item_padding": 12,
+                "gap": 12,
+                "icon_color": "#000000",
+                "text_color": "#000000"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -328,7 +354,8 @@
             "product_promo_fKC6rc",
             "text_aEtTtq",
             "product_promo_JcrhQn",
-            "product_share_zCjrRf"
+            "product_share_zCjrRf",
+            "product_guarantee_kgaiyV"
           ]
         }
       },
@@ -350,6 +377,7 @@
         "text_KkC3X6": {
           "type": "text",
           "name": "t:names.heading",
+          "disabled": true,
           "settings": {
             "text": "<h3>Frequently asked questions</h3>",
             "width": "fit-content",
@@ -377,9 +405,9 @@
           "type": "accordion",
           "name": "t:names.accordion",
           "settings": {
-            "icon": "caret",
+            "icon": "plus",
             "dividers": true,
-            "type_preset": "h5",
+            "type_preset": "",
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -395,18 +423,18 @@
             "accordion_row_abziVM": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "What is the return policy?",
+                "heading": "Over 72 Hours of Precision Handcrafting",
                 "open_by_default": false,
-                "icon": "none",
+                "icon": "heart",
                 "width": 20
               },
               "blocks": {
                 "text_hqydEL": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn't the case, let us know and we'll do our best to work with you to make it right.</p>",
+                    "text": "<p>Each piece of Tenmokus Teaware undergoes dutiful handcrafting taking more than 72 hours to finish. Craftsmanship is very important to us: it is the high quality of our craftsman work that makes each piece of Tenmoku pottery so special. Our artisan craftsman train for years to create stunning pieces that you can both use in your everyday life and display as works of art. Each Tenmokus piece is lovingly created by hand, ensuring that each piece is truly unique.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -434,18 +462,18 @@
             "accordion_row_VKEydR": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "Are any purchases final sale?",
+                "heading": "Own a Masterpiece in Teaware Industry",
                 "open_by_default": false,
-                "icon": "none",
+                "icon": "iron",
                 "width": 20
               },
               "blocks": {
                 "text_jaGjtb": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>We are unable to accept returns on certain items. These will be carefully marked before purchase.</p>",
+                    "text": "<p>What makes these teaware so special is both their unique shape and their specialist glaze. Juanzhan Tenmoku tea cups are bowl shaped, but with a wide brim that allows the tea to stew and cool perfectly. They are glazed at a very high heat using a glaze with a high iron content, which creates a blackened and distinctively beautiful pattern that is unique only to Jianzhan Tenmoku pottery.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -474,9 +502,9 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_row",
               "settings": {
-                "heading": "When will I get my order?",
+                "heading": "Elegent Gift Item & Gorgeous Presentation Box",
                 "open_by_default": false,
-                "icon": "none",
+                "icon": "lock",
                 "width": 20
               },
               "blocks": {
@@ -484,9 +512,9 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
+                    "text": "<p>Tenmokus Tea ware masterpieces are perfectly suited to be used as elegant gift items for all occasions. You can either shop one for yourself or a loved one when there’s need for a gift. These beautifully-crafted designs will serve as the ideal gift for weddings, birthday parties, Christmas get-togethers, office parties, housewarming, reunions or any family hangouts. All our tea ware comes with an elegant presentation box.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -515,9 +543,9 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_row",
               "settings": {
-                "heading": "Where are your products manufactured?",
+                "heading": "Heat Preservation & Improve the Taste",
                 "open_by_default": false,
-                "icon": "none",
+                "icon": "lipstick",
                 "width": 20
               },
               "blocks": {
@@ -525,9 +553,9 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value.</p>",
+                    "text": "<p>Many people say that no matter the liquor, water or coffee, will all become more mellow and delicious when they are in a Jian Zhan Tenmoku tea cup. That is because the special functional design of Jian Zhan Tenmoku for its iron content, sand content, as well as the thickness of the cup embryo and glaze. Therefore, using Jian Zhan to drink tea, it can help to preserve the heat for a long time and to improve the alkalinity in the tea liquid, so that to ensure the taste of tea, and also stimulate and enhance the aroma of the tea.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -551,55 +579,13 @@
               "block_order": [
                 "text_Gi7pjw"
               ]
-            },
-            "accordion_row_GMc6jG": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_row",
-              "settings": {
-                "heading": "How much does shipping cost?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_tdnqig": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>Shipping is calculated based on your location and the items in your order. You will always know the shipping price before you purchase.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_tdnqig"
-              ]
             }
           },
           "block_order": [
             "accordion_row_abziVM",
             "accordion_row_VKEydR",
             "accordion_row_QRjU4X",
-            "accordion_row_aVWpff",
-            "accordion_row_GMc6jG"
+            "accordion_row_aVWpff"
           ]
         }
       },
