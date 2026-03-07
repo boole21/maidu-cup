@@ -2769,6 +2769,11 @@ deferred-media[class]
 .unit-price {
   white-space: nowrap;
 }
+.price {
+  color: rgb(var(--color-sale-price));
+  font-weight: var(--font-medium);
+  font-size: 22px;
+}
 
 .unit-price {
   display: block;
@@ -2787,9 +2792,17 @@ product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
 }
 
 .compare-at-price {
+  position: relative;
   opacity: 0.4;
-  text-decoration-line: line-through;
   text-decoration-thickness: 1.5px;
+}
+.compare-at-price:before {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  width: 100%;
+  transform: rotate(-15deg);
+  border-block-end: 1px solid red;
 }
 
 .card-gallery {

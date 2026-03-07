@@ -1,0 +1,286 @@
+{%- assign block_settings = block.settings -%}
+{%- assign product_url = shop.url | append: product.url -%}
+{%- assign product_title = product.title | url_encode -%}
+{%- assign product_image = product.featured_image | image_url: width: 1200 | prepend: 'https:' -%}
+
+<div
+  class="product-share spacing-style"
+  style="{% render 'spacing-style', settings: block_settings %}"
+  {{ block.shopify_attributes }}
+>
+  <div class="product-share__container">
+    <div class="product-share__left">
+      {%- if block_settings.show_share_label -%}
+        <span class="product-share__label">{{ 'product_share.share' | t }}</span>
+      {%- endif -%}
+
+      <div class="product-share__icons">
+        {%- if block_settings.show_facebook -%}
+          <a
+            href="https://www.facebook.com/sharer/sharer.php?u={{ product_url | url_encode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="product-share__icon"
+            aria-label="{{ 'product_share.share_on_facebook' | t }}"
+          >
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              {%- render 'icon', icon: 'facebook' -%}
+            </svg>
+          </a>
+        {%- endif -%}
+
+        {%- if block_settings.show_twitter -%}
+          <a
+            href="https://twitter.com/intent/tweet?url={{ product_url | url_encode }}&text={{ product_title }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="product-share__icon"
+            aria-label="{{ 'product_share.share_on_x' | t }}"
+          >
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              {%- render 'icon', icon: 'twitter' -%}
+            </svg>
+          </a>
+        {%- endif -%}
+
+        {%- if block_settings.show_pinterest -%}
+          <a
+            href="https://pinterest.com/pin/create/button/?url={{ product_url | url_encode }}&media={{ product_image | url_encode }}&description={{ product_title }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="product-share__icon"
+            aria-label="{{ 'product_share.share_on_pinterest' | t }}"
+          >
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              {%- render 'icon', icon: 'pinterest' -%}
+            </svg>
+          </a>
+        {%- endif -%}
+
+        {%- if block_settings.show_email -%}
+          <a
+            href="mailto:?subject={{ product_title }}&body={{ product_url | url_encode }}"
+            class="product-share__icon"
+            aria-label="{{ 'product_share.share_via_email' | t }}"
+          >
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+              <path d="M2.5 5.5C2.5 5.22386 2.72386 5 3 5H17C17.2761 5 17.5 5.22386 17.5 5.5V14.5C17.5 14.7761 17.2761 15 17 15H3C2.72386 15 2.5 14.7761 2.5 14.5V5.5ZM3.5 6.20711V14.5H16.5V6.20711L10 11.2071L3.5 6.20711ZM15.793 5.5H4.20711L10 9.79289L15.793 5.5Z" fill="currentColor"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if block_settings.show_help_link -%}
+      <div class="product-share__right">
+        <a
+          href="{{ block_settings.help_link }}"
+          class="product-share__help-link"
+        >
+          <svg class="icon icon-question" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <path d="M10 18.5C14.6944 18.5 18.5 14.6944 18.5 10C18.5 5.30558 14.6944 1.5 10 1.5C5.30558 1.5 1.5 5.30558 1.5 10C1.5 14.6944 5.30558 18.5 10 18.5ZM10 19.5C15.2467 19.5 19.5 15.2467 19.5 10C19.5 4.75329 15.2467 0.5 10 0.5C4.75329 0.5 0.5 4.75329 0.5 10C0.5 15.2467 4.75329 19.5 10 19.5Z" fill="currentColor"/>
+            <path d="M7.56285 11.959C7.36021 11.959 7.19593 11.7947 7.19593 11.5921V11.4654C7.19266 10.9745 7.27959 10.5556 7.51194 10.162C7.73885 9.77751 8.0875 9.44653 8.5519 9.09905C8.9668 8.78804 9.2183 8.53255 9.3688 8.28844C9.5132 8.05415 9.577 7.80994 9.577 7.49433V7.48101C9.577 6.58737 8.9199 5.94963 8.0093 5.94963C7.1469 5.94963 6.4818 6.556 6.3969 7.55858C6.39 7.64041 6.3558 7.71754 6.2999 7.77765L6.2937 7.78431C6.2255 7.85755 6.1303 7.89977 6.0303 7.90119L5.559 7.90785C5.4328 7.90963 5.3145 7.84638 5.2459 7.7404C5.1906 7.65507 5.1738 7.55171 5.1972 7.45492C5.3092 5.93601 6.4158 4.74287 8.0217 4.74287C9.6246 4.74287 10.8131 5.91906 10.8131 7.46103V7.47435C10.8131 7.98614 10.6995 8.4388 10.4473 8.86135C10.199 9.27731 9.8283 9.64397 9.3455 10.0059L9.3431 10.0077C8.929 10.313 8.7058 10.5344 8.5791 10.746C8.4596 10.9455 8.4072 11.1677 8.4072 11.5174V11.5921C8.4072 11.7947 8.2429 11.959 8.0403 11.959H7.56285ZM10.7049 14.3815C10.7049 14.8554 10.3695 15.2613 9.8667 15.2613C9.37 15.2613 9.0223 14.862 9.0223 14.3815C9.0223 13.9045 9.3731 13.5084 9.8667 13.5084C10.3665 13.5084 10.7049 13.911 10.7049 14.3815Z" fill="currentColor"/>
+          </svg>
+          <span>{{ 'product_share.need_help' | t }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-share {
+    width: 100%;
+  }
+
+  .product-share__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-md);
+  }
+
+  .product-share__left {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  .product-share__label {
+    font-size: var(--font-paragraph--size);
+    color: var(--color-foreground);
+    white-space: nowrap;
+  }
+
+  .product-share__icons {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  .product-share__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--color-foreground);
+    transition: color 200ms ease-out, transform 200ms ease-out;
+  }
+
+  .product-share__icon:hover {
+    color: var(--color-primary);
+    transform: scale(1.1);
+  }
+
+  .product-share__icon .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .product-share__help-link {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    font-size: var(--font-paragraph--size);
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition: color 200ms ease-out;
+    white-space: nowrap;
+  }
+
+  .product-share__help-link:hover {
+    color: var(--color-primary);
+  }
+
+  .product-share__help-link .icon-question {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-share__container {
+      flex-wrap: wrap;
+      gap: var(--gap-sm);
+    }
+
+    .product-share__icon {
+      width: 28px;
+      height: 28px;
+    }
+
+    .product-share__icon .icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product_share",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:content.share_options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_label",
+      "label": "t:settings.show_share_label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_facebook",
+      "label": "t:settings.show_facebook",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_twitter",
+      "label": "t:settings.show_twitter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pinterest",
+      "label": "t:settings.show_pinterest",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email",
+      "label": "t:settings.show_email",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:content.help_link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_help_link",
+      "label": "t:settings.show_help_link",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "help_link",
+      "label": "t:settings.help_link_url"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_share",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

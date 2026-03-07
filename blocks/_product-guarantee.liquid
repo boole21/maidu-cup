@@ -1,0 +1,349 @@
+{%- assign block_settings = block.settings -%}
+
+<div
+  class="product-guarantee product-guarantee--{{ block.id }}"
+  style="
+    --guarantee-bg: {{ block_settings.background_color }};
+    --guarantee-radius: {{ block_settings.border_radius }}px;
+    --guarantee-item-bg: {{ block_settings.item_background_color }};
+    --guarantee-item-radius: {{ block_settings.item_border_radius }}px;
+    --guarantee-icon-color: {{ block_settings.icon_color }};
+    --guarantee-text-color: {{ block_settings.text_color }};
+    --guarantee-gap: {{ block_settings.gap }}px;
+    --guarantee-padding: {{ block_settings.padding }}px;
+    --guarantee-item-padding: {{ block_settings.item_padding }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <div class="product-guarantee__inner">
+    {%- assign item_index = 0 -%}
+    {%- for i in (1..5) -%}
+      {%- capture icon_setting %}icon_{{ i }}{%- endcapture -%}
+      {%- capture text_setting %}text_{{ i }}{%- endcapture -%}
+      {%- assign icon_value = block_settings[icon_setting] -%}
+      {%- assign text_value = block_settings[text_setting] -%}
+      
+      {%- if text_value != blank -%}
+        {%- assign item_index = item_index | plus: 1 -%}
+        <div class="product-guarantee__item{% if item_index == 1 or item_index == 3 or item_index == 5 %} product-guarantee__item--odd{% endif %}">
+          {%- if icon_value != 'none' -%}
+            <div class="product-guarantee__icon">
+              {%- case icon_value -%}
+                {%- when 'truck' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- when 'shield' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                {%- when 'check_circle' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                {%- when 'zap' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                {%- when 'package' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                {%- when 'refresh' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                {%- when 'lock' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                {%- when 'award' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                {%- when 'headphones' -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+              {%- endcase -%}
+            </div>
+          {%- endif -%}
+          <div class="product-guarantee__text">
+            {{ text_value }}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-guarantee {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-guarantee__inner {
+    background-color: var(--guarantee-bg, transparent);
+    border-radius: var(--guarantee-radius, 0);
+    padding: var(--guarantee-padding, 16px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--guarantee-gap, 12px);
+  }
+
+  .product-guarantee__item {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: var(--guarantee-item-padding, 12px);
+    border-radius: var(--guarantee-item-radius, 0);
+  }
+
+  .product-guarantee__item--odd {
+    background-color: var(--guarantee-item-bg, #ffffff);
+  }
+
+  .product-guarantee__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--guarantee-icon-color, var(--color-foreground));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-guarantee__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-guarantee__text {
+    font-size: var(--font-paragraph--size);
+    line-height: var(--font-paragraph--line-height);
+    color: var(--guarantee-text-color, var(--color-foreground));
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product_guarantee",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Guarantee items"
+    },
+    {
+      "type": "select",
+      "id": "icon_1",
+      "label": "Icon 1",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "check_circle", "label": "Check circle" },
+        { "value": "zap", "label": "Lightning" },
+        { "value": "package", "label": "Package" },
+        { "value": "refresh", "label": "Refresh" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "award", "label": "Award" },
+        { "value": "headphones", "label": "Support" }
+      ],
+      "default": "truck"
+    },
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Text 1",
+      "default": "In stock! Ships within 1-2 business days."
+    },
+    {
+      "type": "select",
+      "id": "icon_2",
+      "label": "Icon 2",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "check_circle", "label": "Check circle" },
+        { "value": "zap", "label": "Lightning" },
+        { "value": "package", "label": "Package" },
+        { "value": "refresh", "label": "Refresh" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "award", "label": "Award" },
+        { "value": "headphones", "label": "Support" }
+      ],
+      "default": "shield"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Text 2",
+      "default": "30 Days Money Back Guaranteed."
+    },
+    {
+      "type": "select",
+      "id": "icon_3",
+      "label": "Icon 3",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "check_circle", "label": "Check circle" },
+        { "value": "zap", "label": "Lightning" },
+        { "value": "package", "label": "Package" },
+        { "value": "refresh", "label": "Refresh" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "award", "label": "Award" },
+        { "value": "headphones", "label": "Support" }
+      ],
+      "default": "zap"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Text 3",
+      "default": "UPS & Fedex Shipping with Tracking."
+    },
+    {
+      "type": "select",
+      "id": "icon_4",
+      "label": "Icon 4",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "check_circle", "label": "Check circle" },
+        { "value": "zap", "label": "Lightning" },
+        { "value": "package", "label": "Package" },
+        { "value": "refresh", "label": "Refresh" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "award", "label": "Award" },
+        { "value": "headphones", "label": "Support" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "text_4",
+      "label": "Text 4"
+    },
+    {
+      "type": "select",
+      "id": "icon_5",
+      "label": "Icon 5",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "check_circle", "label": "Check circle" },
+        { "value": "zap", "label": "Lightning" },
+        { "value": "package", "label": "Package" },
+        { "value": "refresh", "label": "Refresh" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "award", "label": "Award" },
+        { "value": "headphones", "label": "Support" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "text_5",
+      "label": "Text 5"
+    },
+    {
+      "type": "header",
+      "content": "Container"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#fbfbfb"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Padding",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Item style"
+    },
+    {
+      "type": "color",
+      "id": "item_background_color",
+      "label": "Odd item background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "item_border_radius",
+      "label": "Item border radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "label": "Item padding",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between items",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_guarantee",
+      "category": "t:categories.product",
+      "settings": {
+        "icon_1": "truck",
+        "text_1": "In stock! Ships within 1-2 business days.",
+        "icon_2": "shield",
+        "text_2": "30 Days Money Back Guaranteed.",
+        "icon_3": "zap",
+        "text_3": "UPS & Fedex Shipping with Tracking.",
+        "background_color": "#fbfbfb",
+        "border_radius": 10,
+        "padding": 16,
+        "item_background_color": "#ffffff",
+        "item_border_radius": 10,
+        "item_padding": 12,
+        "icon_color": "#000000",
+        "text_color": "#000000",
+        "gap": 12
+      }
+    }
+  ]
+}
+{% endschema %}

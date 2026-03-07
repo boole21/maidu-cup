@@ -18,6 +18,16 @@
     },
     "filter": "筛选条件",
     "payment_methods": "付款方式",
+    "product_specification": {
+      "capacity": "容量",
+      "diameter": "直径",
+      "depth": "深度",
+      "heat_resistant": "耐热温度",
+      "food_safe": "食品安全",
+      "dishwasher": "洗碗机适用",
+      "microwave": "微波炉适用",
+      "direct_heat": "直火适用"
+    },
     "contact_form": {
       "name": "名称",
       "email": "电子邮件",

@@ -126,6 +126,18 @@
     },
     {
       "type": "product-custom-property"
+    },
+    {
+      "type": "product-specification"
+    },
+    {
+      "type": "product-share"
+    },
+    {
+      "type": "_product-promo"
+    },
+    {
+      "type": "_product-guarantee"
     }
   ],
   "tag": null,
@@ -672,9 +684,21 @@
                 }
               },
               "block_order": ["text"]
+            },
+            "accordion-row-4": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "t:text_defaults.details"
+              },
+              "blocks": {
+                "product-share": {
+                  "type": "product-share"
+                }
+              },
+              "block_order": ["product-share"]
             }
           },
-          "block_order": ["accordion-row-1", "accordion-row-2", "accordion-row-3"]
+          "block_order": ["accordion-row-1", "accordion-row-2", "accordion-row-3", "accordion-row-4"]
         },
         "complementary_products": {
           "type": "product-recommendations",

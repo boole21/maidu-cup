@@ -1,0 +1,287 @@
+{%- assign block_settings = block.settings -%}
+
+<div
+  class="product-specification spacing-style"
+  style="{% render 'spacing-style', settings: block_settings %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block_settings.heading != blank -%}
+    {%- assign heading_level = block_settings.heading_level | default: 'h3' -%}
+    {%- assign heading_alignment = block_settings.heading_alignment | default: 'left' -%}
+    {%- assign heading_size = block_settings.heading_size | default: 'medium' -%}
+    {%- assign heading_color = block_settings.heading_color | default: '' -%}
+    {%- assign heading_margin_top = block_settings.heading_margin_top | default: 0 -%}
+    {%- assign heading_margin_bottom = block_settings.heading_margin_bottom | default: 16 -%}
+
+    {%- capture heading_style -%}
+      text-align: {{ heading_alignment }};
+      {%- if heading_color != blank -%}color: {{ heading_color }};{%- endif -%}
+      margin-top: {{ heading_margin_top }}px;
+      margin-bottom: {{ heading_margin_bottom }}px;
+    {%- endcapture -%}
+
+    <{{ heading_level }}
+      class="product-specification__heading product-specification__heading--{{ heading_size }}"
+      style="{{ heading_style }}"
+    >
+      {{- block_settings.heading -}}
+    </{{ heading_level }}>
+  {%- endif -%}
+
+  <div class="product-specification__grid">
+    {%- comment -%}定义规格项映射：metafield_key|icon|label|setting_key{%- endcomment -%}
+    {%- assign spec_map = 'capacity|icon-measuring-cup|Capacity|show_capacity,diameter|icon-ruler|Diameter|show_diameter,depth|icon-ruler-vertical|Depth|show_depth,heat_resistant|icon-thermometer|Heat Resistant|show_heat_resistant,food_safe|icon-food-safe|Food Safe|show_food_safe,dishwasher|icon-dishwasher|Dishwasher|show_dishwasher,microwave|icon-microwave|Microwave|show_microwave,direct_heat_on_stove|icon-fire|Direct Heat on Stove|show_direct_heat'
+      | split: ','
+    -%}
+
+    {%- comment -%}遍历规格项定义，只显示产品中存在的{%- endcomment -%}
+    {%- for spec_def in spec_map -%}
+      {%- assign parts = spec_def | split: '|' -%}
+      {%- assign metafield_key = parts[0] -%}
+      {%- assign icon = parts[1] -%}
+      {%- assign label = parts[2] -%}
+      {%- assign show_setting = parts[3] -%}
+
+      {%- comment -%}获取产品的 metafield 值{%- endcomment -%}
+      {%- assign metafield_value = product.metafields.custom[metafield_key] -%}
+
+      {%- comment -%}只有当设置启用且产品有该 metafield 时才显示{%- endcomment -%}
+      {%- if block_settings[show_setting] and metafield_value != blank -%}
+        <div class="product-specification__item">
+          <div class="product-specification__icon">
+            {{- icon | append: '.svg' | inline_asset_content -}}
+          </div>
+          <div class="product-specification__content">
+            <span class="product-specification__value">{{ metafield_value }}</span>
+            <span class="product-specification__label">{{ label }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.product-specification { width: 100%; background-color: #fafafa; border-radius: 10px; padding: 20px; }
+
+.product-specification__heading { font-weight: var(--font-weight-semibold); margin: 0; }
+
+.product-specification__heading--small { font-size: var(--font-paragraph--size); }
+
+.product-specification__heading--medium { font-size: var(--font-h5--size); }
+
+.product-specification__heading--large { font-size: var(--font-h4--size); }
+
+.product-specification__heading--xlarge { font-size: var(--font-h3--size); }
+
+.product-specification__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--padding-md); }
+
+.product-specification__item { display: flex; align-items: center; gap: var(--padding-sm); padding: var(--padding-sm);
+background-color: #ffffff; border-radius: 10px; }
+
+.product-specification__icon { flex-shrink: 0; width: 32px; height: 32px; display: flex; align-items: center;
+justify-content: center; }
+
+.product-specification__icon svg { width: 32px; height: 32px; }
+
+.product-specification__content { display: flex; flex-direction: column; gap: 2px; }
+
+.product-specification__value { font-size: var(--font-paragraph--size); font-weight: var(--font-weight-semibold); color:
+var(--color-foreground); }
+
+.product-specification__label { font-size: var(--font-paragraph-small--size); color: rgb(var(--color-foreground-rgb) /
+var(--opacity-subdued-text)); }
+
+@media screen and (max-width: 749px) { .product-specification__grid { gap: var(--padding-sm); }
+
+.product-specification__item { padding: var(--padding-xs); }
+
+.product-specification__icon { width: 28px; height: 28px; }
+
+    .product-specification__icon svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product_specification",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "Product Specification"
+    },
+    {
+      "type": "select",
+      "id": "heading_level",
+      "label": "Heading level",
+      "options": [
+        {"value": "h2", "label": "H2"},
+        {"value": "h3", "label": "H3"},
+        {"value": "h4", "label": "H4"}
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {"value": "small", "label": "Small"},
+        {"value": "medium", "label": "Medium"},
+        {"value": "large", "label": "Large"},
+        {"value": "xlarge", "label": "Extra Large"}
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "left"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_top",
+      "label": "Heading margin top",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "label": "Heading margin bottom",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:content.specifications"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_capacity",
+      "label": "t:settings.show_capacity",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_diameter",
+      "label": "t:settings.show_diameter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_depth",
+      "label": "t:settings.show_depth",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heat_resistant",
+      "label": "t:settings.show_heat_resistant",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_food_safe",
+      "label": "t:settings.show_food_safe",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dishwasher",
+      "label": "t:settings.show_dishwasher",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_microwave",
+      "label": "t:settings.show_microwave",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_direct_heat",
+      "label": "t:settings.show_direct_heat",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_specification",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

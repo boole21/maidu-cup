@@ -128,7 +128,25 @@
 		"load_video": "Load video: {{ description }}",
 		"sold_out": "Sold out",
 		"payment_methods": "Payment methods",
-		"slider_label": "Slider"
+		"slider_label": "Slider",
+		"product_specification": {
+			"capacity": "Capacity",
+			"diameter": "Diameter",
+			"depth": "Depth",
+			"heat_resistant": "Heat Resistant",
+			"food_safe": "Food Safe",
+			"dishwasher": "Dishwasher",
+			"microwave": "Microwave",
+			"direct_heat": "Direct Heat on Stove"
+		}
+	},
+	"product_share": {
+		"share": "Share:",
+		"share_on_facebook": "Share on Facebook",
+		"share_on_x": "Share on X",
+		"share_on_pinterest": "Share on Pinterest",
+		"share_via_email": "Share via Email",
+		"need_help": "Need help?"
 	},
 	"blogs": {
 		"article": {

@@ -104,7 +104,11 @@
               "blocks": {}
             }
           },
-          "block_order": ["text_PhDpRz", "text_rkChcG", "button_GTcbnY"]
+          "block_order": [
+            "text_PhDpRz",
+            "text_rkChcG",
+            "button_GTcbnY"
+          ]
         },
         "slide_UPfD7y": {
           "type": "_slide",
@@ -198,10 +202,17 @@
               "blocks": {}
             }
           },
-          "block_order": ["text_jiJKbd", "text_VV9WQf", "button_mprKpX"]
+          "block_order": [
+            "text_jiJKbd",
+            "text_VV9WQf",
+            "button_mprKpX"
+          ]
         }
       },
-      "block_order": ["slide_fCA69R", "slide_UPfD7y"],
+      "block_order": [
+        "slide_fCA69R",
+        "slide_UPfD7y"
+      ],
       "name": "t:names.slideshow_full_frame",
       "settings": {
         "display_mode": "with_hints",
@@ -304,7 +315,9 @@
               "blocks": {}
             }
           },
-          "block_order": ["text_LVkqLF"]
+          "block_order": [
+            "text_LVkqLF"
+          ]
         },
         "static-collection-card": {
           "type": "_collection-card",
@@ -390,7 +403,9 @@
           ]
         }
       },
-      "block_order": ["group_jWLi8W"],
+      "block_order": [
+        "group_jWLi8W"
+      ],
       "name": "t:names.collections_grid",
       "settings": {
         "collection_list": [
@@ -1375,7 +1390,11 @@
           "blocks": {}
         }
       },
-      "block_order": ["text_VzEfQh", "text_i6aDTx", "button_9ytjwf"],
+      "block_order": [
+        "text_VzEfQh",
+        "text_i6aDTx",
+        "button_9ytjwf"
+      ],
       "name": "Hero Video",
       "settings": {
         "media_type_1": "video",
@@ -1551,7 +1570,10 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["text_frKaCH", "text_jWqkYy"]
+              "block_order": [
+                "text_frKaCH",
+                "text_jWqkYy"
+              ]
             },
             "button_aTeTNF": {
               "type": "button",
@@ -1568,7 +1590,11 @@
               "blocks": {}
             }
           },
-          "block_order": ["text_8pBt6D", "group_m6J6NQ", "button_aTeTNF"]
+          "block_order": [
+            "text_8pBt6D",
+            "group_m6J6NQ",
+            "button_aTeTNF"
+          ]
         }
       },
       "disabled": true,
@@ -1868,10 +1894,16 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["text_xeDzAW", "text_J6akfC"]
+              "block_order": [
+                "text_xeDzAW",
+                "text_J6akfC"
+              ]
             }
           },
-          "block_order": ["icon_mkmUYP", "group_pcWdzj"]
+          "block_order": [
+            "icon_mkmUYP",
+            "group_pcWdzj"
+          ]
         },
         "group_KGQwH4": {
           "type": "group",
@@ -1908,7 +1940,7 @@
             "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-inline-start": 20,
             "padding-inline-end": 0
           },
           "blocks": {
@@ -2012,10 +2044,16 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["text_7PeMAT", "text_8YMWWr"]
+              "block_order": [
+                "text_7PeMAT",
+                "text_8YMWWr"
+              ]
             }
           },
-          "block_order": ["icon_MLzp63", "group_zazqhr"]
+          "block_order": [
+            "icon_MLzp63",
+            "group_zazqhr"
+          ]
         },
         "group_PN8Jkb": {
           "type": "group",
@@ -2156,10 +2194,16 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["text_3yLFbt", "text_HL8kwC"]
+              "block_order": [
+                "text_3yLFbt",
+                "text_HL8kwC"
+              ]
             }
           },
-          "block_order": ["icon_fzxybf", "group_xjNmAL"]
+          "block_order": [
+            "icon_fzxybf",
+            "group_xjNmAL"
+          ]
         },
         "group_6jNpPP": {
           "type": "group",
@@ -2197,7 +2241,7 @@
             "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-inline-start": 20,
             "padding-inline-end": 0
           },
           "blocks": {
@@ -2301,10 +2345,16 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["text_h6D7hF", "text_yeDNTL"]
+              "block_order": [
+                "text_h6D7hF",
+                "text_yeDNTL"
+              ]
             }
           },
-          "block_order": ["icon_KQjhGz", "group_mJ64p9"]
+          "block_order": [
+            "icon_KQjhGz",
+            "group_mJ64p9"
+          ]
         }
       },
       "block_order": [

@@ -54,7 +54,7 @@
           {% assign image_alt = image_to_show.alt | default: product.title | escape %}
           {{
             image_to_show
-            | image_url: width: 120
+            | image_url: width: 150
             | image_tag:
               loading: 'lazy',
               alt: image_alt,
@@ -178,17 +178,15 @@
   .sticky-add-to-cart__bar {
     position: fixed;
     bottom: 20px;
-    left: 50%;
+    right: 20px;
     opacity: 0;
-    transform: translateX(-50%) translateY(calc(100% + 40px));
+    transform: translateY(calc(100% + 40px));
     z-index: calc(var(--layer-sticky) - 1); /* Below sticky header */
     display: block;
     width: 600px;
-    border-radius: calc(
-      var(--style-border-radius-buttons-primary) + min(var(--padding-sm), var(--style-border-radius-buttons-primary))
-    );
+    border-radius: 10px;
     box-shadow: var(--shadow-popover);
-    padding: var(--padding-sm);
+    padding: var(--padding-2xl);
     /* Layout styling */
     display: flex;
     align-items: center;
@@ -196,7 +194,7 @@
 
     @starting-style {
       opacity: 0;
-      transform: translateX(-50%) translateY(calc(100% + 40px));
+      transform: translateY(calc(100% + 40px));
     }
 
     &::before {
@@ -223,7 +221,7 @@
   }
 
   .sticky-add-to-cart__bar[data-stuck='true'] {
-    transform: translateX(-50%) translateY(0%);
+    transform: translateY(0%);
     opacity: 1;
   }
 
@@ -240,7 +238,7 @@
   .sticky-add-to-cart__image {
     flex-shrink: 0;
     aspect-ratio: 1;
-    height: var(--height-buy-buttons);
+    height: 80px;
     overflow: hidden;
     border-radius: var(--style-border-radius-buttons-primary);
     background: var(--color-background-secondary);
