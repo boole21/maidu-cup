@@ -44,74 +44,78 @@
       role="region"
       aria-label="{{ 'products.product.sticky_add_to_cart' | t }}"
     >
-      {% liquid
-        assign image_to_show = current_variant.featured_image | default: product.featured_image
-      %}
-      {% if image_to_show %}
-        <div
-          class="sticky-add-to-cart__image"
-        >
-          {% assign image_alt = image_to_show.alt | default: product.title | escape %}
-          {{
-            image_to_show
-            | image_url: width: 150
-            | image_tag:
-              loading: 'lazy',
-              alt: image_alt,
-              class: 'sticky-add-to-cart__image-img',
-              data-testid: 'sticky-product-image',
-              srcset: null,
-              sizes: null,
-              ref: 'productImage'
-          }}
+      <div class="sticky-add-to-cart-left">
+        {% liquid
+          assign image_to_show = current_variant.featured_image | default: product.featured_image
+        %}
+        {% if image_to_show %}
+          <div
+            class="sticky-add-to-cart__image"
+          >
+            {% assign image_alt = image_to_show.alt | default: product.title | escape %}
+            {{
+              image_to_show
+              | image_url: width: 150
+              | image_tag:
+                loading: 'lazy',
+                alt: image_alt,
+                class: 'sticky-add-to-cart__image-img',
+                data-testid: 'sticky-product-image',
+                srcset: null,
+                sizes: null,
+                ref: 'productImage'
+            }}
+          </div>
+        {% endif %}
+
+        <div class="sticky-add-to-cart__info-container">
+          {% liquid
+            assign has_single_option = false
+            if product.has_only_default_variant != true and product.options.size == 1
+              assign has_single_option = true
+            endif
+
+            if image_to_show == blank
+              assign has_image = false
+            else
+              assign has_image = true
+            endif
+          %}
+          <div
+            class="sticky-add-to-cart__info"
+            data-has-image="{{ has_image }}"
+            data-singleton="{{ product.has_only_default_variant }}"
+            data-single-option="{{ has_single_option }}"
+          >
+            <h3
+              class="sticky-add-to-cart__title"
+              data-testid="sticky-product-title"
+            >
+              {{ product.title | escape }}
+            </h3>
+            <div
+              class="sticky-add-to-cart__variant"
+              data-testid="sticky-variant-title"
+              {% if product.has_only_default_variant %}
+                style="display: none;"
+              {% endif %}
+            >
+              {% unless product.has_only_default_variant %}
+                {% if current_variant != blank %}
+                  {% assign variant_title = current_variant.title | escape %}
+                {% endif %}
+                {{ variant_title }}
+              {% endunless %}
+            </div>
+          </div>
+
+          <div
+            class="sticky-add-to-cart__price"
+            data-testid="sticky-price-display"
+          >
+            {% render 'price', product_resource: product, show_sale_price_first: true %}
+          </div>
         </div>
-      {% endif %}
-
-      {% liquid
-        assign has_single_option = false
-        if product.has_only_default_variant != true and product.options.size == 1
-          assign has_single_option = true
-        endif
-
-        if image_to_show == blank
-          assign has_image = false
-        else
-          assign has_image = true
-        endif
-      %}
-      <div
-        class="sticky-add-to-cart__info"
-        data-has-image="{{ has_image }}"
-        data-singleton="{{ product.has_only_default_variant }}"
-        data-single-option="{{ has_single_option }}"
-      >
-        <h3
-          class="sticky-add-to-cart__title"
-          data-testid="sticky-product-title"
-        >
-          {{ product.title | escape }}
-        </h3>
-        <div
-          class="sticky-add-to-cart__variant"
-          data-testid="sticky-variant-title"
-          {% if product.has_only_default_variant %}
-            style="display: none;"
-          {% endif %}
-        >
-          {% unless product.has_only_default_variant %}
-            {% if current_variant != blank %}
-              {% assign variant_title = current_variant.title | escape %}
-            {% endif %}
-            {{ variant_title }}
-          {% endunless %}
-        </div>
-      </div>
-
-      <div
-        class="sticky-add-to-cart__price"
-        data-testid="sticky-price-display"
-      >
-        {% render 'price', product_resource: product, show_sale_price_first: true %}
       </div>
 
       <button
@@ -189,6 +193,7 @@
     padding: var(--padding-2xl);
     /* Layout styling */
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: var(--gap-md);
 
@@ -209,6 +214,12 @@
       z-index: -1;
       backdrop-filter: blur(20px) saturate(180%) brightness(1.5);
     }
+  }
+  .sticky-add-to-cart-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--gap-md);
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -249,6 +260,10 @@
     height: 100%;
     object-fit: cover;
   }
+  .sticky-add-to-cart__info-container {
+    display: flex;
+    flex-direction: column;
+  }
 
   .sticky-add-to-cart__info {
     flex: 1;
@@ -272,6 +287,14 @@
 
   .sticky-add-to-cart__price {
     font-weight: var(--font-weight-semibold);
+  }
+
+  .sticky-add-to-cart__price .price {
+    font-size: 1rem;
+  }
+
+  .sticky-add-to-cart__price .compare-at-price {
+    font-size: 0.8rem;
   }
 
   .sticky-add-to-cart__button {
