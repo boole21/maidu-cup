@@ -5274,3 +5274,12 @@ product-recommendations:has([data-has-recommendations="false"]) {
 .home-hero-video video {
   border-radius: 30px;
 }
+
+/* FAQs & Contact */
+.section-faqs-contact-wrapper > .section {
+  background-color: #fff;
+  .custom-section-content {
+    background-color: var(--color-background);
+    border-radius: 10px;
+  }
+}
